@@ -1,6 +1,24 @@
 <resources>
     <string name="app_name">SwitchTab</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- İsim Sistemi ==> Classİsmi + Textleri -->
+    <!--  FirstActivity Textleri  -->
+    <string name="first_tvRegistered">Zaten Kayıtlı Mısın?</string>
+    <string name="first_btnSignUp">Ücretsiz Kaydol</string>
+    <string name="first_btnSignIn">Oturum Aç</string>
+
+    <!--  SignUp Textleri  -->
+    <string name="signUp_header">Hesap Oluştur</string>
+    <string name="signUp_etEmail">E-Mail Adresinizi Giriniz</string>
+    <string name="signUp_etUsername">Kullanıcı Adınızı Giriniz</string>
+    <string name="signUp_etPassword">Şifrenizi Giriniz</string>
+    <string name="signUp_btnSignUp">Kaydol</string>
+
+    <!--  Login Textleri  -->
+    <string name="login_tvHeader">Oturum Aç</string>
+    <string name="login_etEmail">Email Adresinizi Giriniz</string>
+    <string name="login_etPassword">Şifrenizi Giriniz</string>
+    <string name="login_btnLogin">Oturum Aç</string>
 </resources>
