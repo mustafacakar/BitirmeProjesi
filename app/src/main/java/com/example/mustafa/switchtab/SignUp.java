@@ -23,6 +23,18 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void signUp(View v){
-        firebaseAdapter.uyeKayit(email.getText().toString(),password.getText().toString(),this);
+        firebaseAdapter.uyeKayit(email.getText().toString(),password.getText().toString(),username.getText().toString(),this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAdapter.authStateListenerEkle();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAdapter.authStateListenerTemizle();
     }
 }
