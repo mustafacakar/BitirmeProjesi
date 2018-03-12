@@ -2,9 +2,19 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
 
-    <color name="colorPrimaryDark">#292b3d</color>
+    <color name="colorPrimaryDark">#0b1f2d</color>
     <color name="graylight">#fafafa</color>
     <color name="startblue">#09c6df</color>
     <color name="endblue">#0bcce6</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- Uygulama Genel Renkleri -->
+    <color name="genel_koyuMavi">#0b1f2d</color>
+    <color name="genel_acikMavi">#1f567c</color>
+    <color name="genel_editTextArkaplan">#99FFFFFF</color>
+
+    <!-- First Activity -->
+    <color name="first_kayitliUye">#FFFFFF</color>
+    <color name="first_buttonArkaplan">#FFFFFF</color>
+    <color name="first_buttonText">#1f567c</color>
 </resources>

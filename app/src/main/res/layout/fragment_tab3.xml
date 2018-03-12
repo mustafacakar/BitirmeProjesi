@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mustafa.switchtab.Tab3"
-    android:background="@color/graylight"
+    android:background="@color/genel_acikMavi"
 
     >
 
@@ -14,10 +14,20 @@
         android:textStyle="bold"
         android:text="Profil Sayfası"/>
 
-
-
-
-
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/first_activity_buttons"
+        android:onClick="cikisYap"
+        android:text="Çıkış Yap"
+        android:textColor="@color/first_buttonText" />
 
 
 </RelativeLayout>

@@ -26,7 +26,6 @@ public class FirstActivity extends AppCompatActivity {
         setContentView(R.layout.activity_first);
 
         autoLogin=this.getSharedPreferences("com.example.mustafa.switchtab", Context.MODE_PRIVATE);
-        //otoLoginBilgiTemizle();
 
         login=new FirebaseAdapter();
         login.otoLoginYap(this);
@@ -41,7 +40,6 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public static void otoLoginBilgiTemizle() {
-
         autoLogin.edit().remove("email").apply();
         autoLogin.edit().remove("password").apply();
         autoLogin.edit().remove("username").apply();
