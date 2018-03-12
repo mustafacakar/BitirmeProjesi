@@ -26,4 +26,8 @@
     <string name="login_tvParola">Parola</string>
     <string name="login_etPassword">Şifrenizi Giriniz</string>
     <string name="login_btnLogin">Oturum Aç</string>
+
+    <!-- NotEkle Textleri -->
+    <string name="notEkle_baslik">Not Başlığını Girin</string>
+    <string name="notEkle_icerik">Not İçeriğini Girin</string>
 </resources>

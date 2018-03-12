@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentIn
     @Override
     protected void onStop() {
         super.onStop();
-        this.finish();
     }
 
     public void cikisYap(View v){
@@ -77,6 +76,11 @@ public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentIn
         FirstActivity.autoLogin.edit().remove("misafir").apply();
 
         Intent intent = new Intent(this,FirstActivity.class);
+        startActivity(intent);
+    }
+
+    public void notEkle(View v){
+        Intent intent = new Intent(this,NotEkle.class);
         startActivity(intent);
     }
 }

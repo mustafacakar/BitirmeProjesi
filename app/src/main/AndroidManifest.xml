@@ -20,7 +20,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Login" />
         <activity android:name=".SignUp" />
-        <activity android:name=".LoginAnimasyon"></activity>
+        <activity android:name=".LoginAnimasyon" />
+        <activity android:name=".NotEkle"></activity>
     </application>
 
 </manifest>
