@@ -13,11 +13,14 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentInteractionListener,Tab2.OnFragmentInteractionListener,Tab3.OnFragmentInteractionListener {
 
     TextView baslik;
+    boolean cikisYap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cikisYap=false;
 
         baslik = (TextView) findViewById(R.id.main_tvHeader);
         if(FirstActivity.autoLogin.getString("username",null)!=null){
@@ -66,9 +69,15 @@ public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentIn
     @Override
     protected void onStop() {
         super.onStop();
+
+        if (cikisYap){
+            this.finish();
+        }
     }
 
     public void cikisYap(View v){
+        cikisYap=true;
+
         FirstActivity.autoLogin.edit().remove("email").apply();
         FirstActivity.autoLogin.edit().remove("password").apply();
         FirstActivity.autoLogin.edit().remove("username").apply();

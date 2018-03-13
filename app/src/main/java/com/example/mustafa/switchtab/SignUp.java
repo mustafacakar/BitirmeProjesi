@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SignUp extends AppCompatActivity {
 
@@ -24,7 +25,12 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void signUp(View v){
-        firebaseAdapter.uyeKayit(email.getText().toString(),password.getText().toString(),username.getText().toString(),this);
+        if(!email.getText().toString().equals("") && !username.getText().toString().equals("") && !password.getText().toString().equals("")){
+            firebaseAdapter.uyeKayit(email.getText().toString(),password.getText().toString(),username.getText().toString(),this);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Lütfen Bilgileri Eksiksiz Girin", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

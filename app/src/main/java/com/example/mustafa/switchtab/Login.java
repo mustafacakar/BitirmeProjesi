@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Login extends AppCompatActivity {
 
@@ -21,7 +22,12 @@ public class Login extends AppCompatActivity {
         firebaseAdapter=new FirebaseAdapter();
     }
     public void login(View v){
-        firebaseAdapter.uyeGirisYap(email.getText().toString(),password.getText().toString(),this);
+        if(!email.getText().toString().equals("")){
+            firebaseAdapter.uyeGirisYap(email.getText().toString(),password.getText().toString(),this);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"E-Mail veya Şifre Girilmedi", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

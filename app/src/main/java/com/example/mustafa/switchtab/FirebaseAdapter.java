@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.UUID;
+import java.util.concurrent.Executor;
 
 class FirebaseAdapter {
     private FirebaseAuth mAuth; //Authentication İşlemlerini Yapan Değişken
@@ -26,9 +28,16 @@ class FirebaseAdapter {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
     private String uuid;
+    private int basariliIslem;
 
     // Authentication İşlemlerini Yapacak Nesneler Oluşturuluyor.
     FirebaseAdapter(){
+
+        uyelikIslemleri();
+        databaseIslemleri();
+    }
+
+    void uyelikIslemleri(){
         mAuth=FirebaseAuth.getInstance();
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
@@ -36,6 +45,11 @@ class FirebaseAdapter {
 
             }
         };
+    }
+
+    void databaseIslemleri(){
+        firebaseDatabase=FirebaseDatabase.getInstance();
+        myRef=firebaseDatabase.getReference();
     }
 
     // Kullanılacak Activity'de OnStart Methodu @Override Edilip İçine Yazılacak
@@ -52,9 +66,6 @@ class FirebaseAdapter {
 
     // Üye Kaydı Yapan Method
     void uyeKayit(final String email, final String password, final String username, final Context c){
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        myRef=firebaseDatabase.getReference();
-
 
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener((Activity) c, new OnCompleteListener<AuthResult>() {
             @Override
@@ -80,7 +91,7 @@ class FirebaseAdapter {
         });
     }
 
-    public  void  otoLoginYap(Context c){
+    void  otoLoginYap(Context c){
         if(FirstActivity.autoLogin.getBoolean("misafir",false) == true){
             Intent intent = new Intent(c,MainActivity.class);
             c.startActivity(intent);
@@ -126,7 +137,13 @@ class FirebaseAdapter {
             @Override
             public void onFailure(@NonNull Exception e) {
                 if(e!=null){
-                    Toast.makeText(c,e.getLocalizedMessage().toString(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+
+                    if(FirstActivity.autoLogin.getBoolean("girisYapildi",false) == true){
+                        FirstActivity.otoLoginBilgiTemizle();
+                        Intent intent = new Intent(c,FirstActivity.class);
+                        c.startActivity(intent);
+                    }
                 }
             }
         });
@@ -157,5 +174,27 @@ class FirebaseAdapter {
 
             }
         });
+    }
+
+    boolean notuUploadEt(String baslik, String icerik, Context c){
+        String uuid= UUID.randomUUID().toString();
+        basariliIslem=0;
+        if(myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(uuid).child("Not_Baslik").setValue(baslik).isSuccessful()){
+            basariliIslem++;
+        }
+
+        if(myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(uuid).child("Not_Icerik").setValue(icerik).isSuccessful()){
+            basariliIslem++;
+        }
+
+        if(basariliIslem!=2){
+            Toast.makeText(c,"Not Başarıyla Eklendi",Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else{
+            Toast.makeText(c,"Not Eklenemedi",Toast.LENGTH_LONG).show();
+            myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(uuid).removeValue();
+            return false;
+        }
     }
 }
