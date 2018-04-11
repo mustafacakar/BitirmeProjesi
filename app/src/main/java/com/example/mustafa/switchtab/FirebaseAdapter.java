@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.Executor;
@@ -187,8 +191,12 @@ class FirebaseAdapter {
             basariliIslem++;
         }
 
+        //sebebini bilmediğim şekilde böyle çalışıyor elleşmeyin beyler -- Tolga
         if(basariliIslem!=2){
             Toast.makeText(c,"Not Başarıyla Eklendi",Toast.LENGTH_LONG).show();
+
+            //NotlarıDownloadEderken Kolaylık Olsun Diye, Kullanıcı Tablosuna Not ID'sini Ekliyorum
+            myRef.child("KeepNoteApp").child("Kullanicilar").child("Notlar").setValue(uuid);
             return true;
         }
         else{
@@ -196,5 +204,34 @@ class FirebaseAdapter {
             myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(uuid).removeValue();
             return false;
         }
+    }
+
+    void notlarıDownloadEt(final Context c, final ListView listView){
+        firebaseDatabase= FirebaseDatabase.getInstance();
+        myRef = firebaseDatabase.getReference("KeepNoteApp/Notlar/"+FirstActivity.autoLogin.getString("username",null).toString());
+
+        final ArrayList<String> baslik = new ArrayList<String>();
+        final ArrayList<String> icerik = new ArrayList<String>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("----------->      " +dataSnapshot.getValue().toString());
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    HashMap<String,String> hashMapNotlar = (HashMap<String, String>) ds.getValue();
+                    System.out.println("----------->      " +hashMapNotlar.get("Not_Baslik").toString());
+                    System.out.println("----------->      " +hashMapNotlar.get("Not_Icerik").toString());
+                    baslik.add(hashMapNotlar.get("Not_Baslik").toString());
+                    icerik.add(hashMapNotlar.get("Not_Icerik").toString());
+                    // notListesi.setAdapter(new NotGosterAdapter(this.getContext(),baslik, icerik));
+                    listView.setAdapter(new NotGosterAdapter(c,baslik,icerik));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

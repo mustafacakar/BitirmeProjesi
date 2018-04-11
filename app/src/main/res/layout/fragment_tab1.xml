@@ -8,14 +8,29 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/tab1_lvNotlar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
     <Button
-        android:id="@+id/button4"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:id="@+id/notlar_btnNotEkle"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="30dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/not_ekle_button"
         android:onClick="notEkle" />
+
 </RelativeLayout>

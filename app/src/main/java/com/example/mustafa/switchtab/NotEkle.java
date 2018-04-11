@@ -27,9 +27,8 @@ public class NotEkle extends AppCompatActivity {
     public void olustur(View v){
         if(!baslik.getText().toString().equals("") && !icerik.getText().toString().equals("")){
             if (firebaseAdapter.notuUploadEt(baslik.getText().toString(),icerik.getText().toString(),this)){
-                basariliKayit=true;
-                Intent intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
+                //basariliKayit=true;
+                this.finish();
             }
         }
         else{
@@ -40,8 +39,8 @@ public class NotEkle extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(basariliKayit){
+        /*if(basariliKayit){
             this.finish();
-        }
+        }*/
     }
 }
