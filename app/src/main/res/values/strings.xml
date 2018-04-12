@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SwitchTab</string>
+    <string name="app_name">KeepNote</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -11,14 +11,23 @@
 
     <!--  SignUp Textleri  -->
     <string name="signUp_header">Hesap Oluştur</string>
+    <string name="singUp_tvEmail">E-Mail Adresin Nedir?</string>
     <string name="signUp_etEmail">E-Mail Adresinizi Giriniz</string>
+    <string name="singUp_tvUsername">Kullanıcı Adı Seç</string>
     <string name="signUp_etUsername">Kullanıcı Adınızı Giriniz</string>
+    <string name="singUp_tvPassword">Bir Parola Seç</string>
     <string name="signUp_etPassword">Şifrenizi Giriniz</string>
     <string name="signUp_btnSignUp">Kaydol</string>
 
     <!--  Login Textleri  -->
     <string name="login_tvHeader">Oturum Aç</string>
+    <string name="login_tvEmail">E-Posta Adresi</string>
     <string name="login_etEmail">Email Adresinizi Giriniz</string>
+    <string name="login_tvParola">Parola</string>
     <string name="login_etPassword">Şifrenizi Giriniz</string>
     <string name="login_btnLogin">Oturum Aç</string>
+
+    <!-- NotEkle Textleri -->
+    <string name="notEkle_baslik">Not Başlığını Girin</string>
+    <string name="notEkle_icerik">Not İçeriğini Girin</string>
 </resources>
