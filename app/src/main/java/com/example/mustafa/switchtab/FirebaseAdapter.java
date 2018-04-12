@@ -224,7 +224,7 @@ class FirebaseAdapter {
                     baslik.add(hashMapNotlar.get("Not_Baslik").toString());
                     icerik.add(hashMapNotlar.get("Not_Icerik").toString());
                     listView.setAdapter(new NotGosterAdapter(c,baslik,icerik));
-                    // Bu Kod Yazılmazsa, devamlı çekmeye çalışıyor... Ekleme İşlemi yaptığımızda da
+                    // Bu Kod Yazılmazsa, devamlı çekmeye çalışıyor. Ekleme İşlemi yaptığımızda da
                     // database okuma işlemiyle meşgul olduğu için, 2.kere çekme işlemi başlatamıyor anladığım kadarıyla
                     myRef.removeEventListener(this);
                 }
