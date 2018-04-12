@@ -180,6 +180,7 @@ class FirebaseAdapter {
         });
     }
 
+
     boolean notuUploadEt(String baslik, String icerik, Context c){
         String uuid= UUID.randomUUID().toString();
         basariliIslem=0;
@@ -196,7 +197,7 @@ class FirebaseAdapter {
             Toast.makeText(c,"Not Başarıyla Eklendi",Toast.LENGTH_LONG).show();
 
             //NotlarıDownloadEderken Kolaylık Olsun Diye, Kullanıcı Tablosuna Not ID'sini Ekliyorum
-            myRef.child("KeepNoteApp").child("Kullanicilar").child("Notlar").setValue(uuid);
+            //myRef.child("KeepNoteApp").child("Kullanicilar").child("Notlar").setValue(uuid);
             return true;
         }
         else{
@@ -222,8 +223,10 @@ class FirebaseAdapter {
                     System.out.println("----------->      " +hashMapNotlar.get("Not_Icerik").toString());
                     baslik.add(hashMapNotlar.get("Not_Baslik").toString());
                     icerik.add(hashMapNotlar.get("Not_Icerik").toString());
-                    // notListesi.setAdapter(new NotGosterAdapter(this.getContext(),baslik, icerik));
                     listView.setAdapter(new NotGosterAdapter(c,baslik,icerik));
+                    // Bu Kod Yazılmazsa, devamlı çekmeye çalışıyor... Ekleme İşlemi yaptığımızda da
+                    // database okuma işlemiyle meşgul olduğu için, 2.kere çekme işlemi başlatamıyor anladığım kadarıyla
+                    myRef.removeEventListener(this);
                 }
 
             }

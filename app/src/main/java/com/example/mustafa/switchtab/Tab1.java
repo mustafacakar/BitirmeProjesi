@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class Tab1 extends Fragment{
 
     private ListView notListesi;
     FirebaseAdapter firebaseAdapter;
+    boolean recreate;
 
     /*String baslik[]={"Birinci","İkinci","Üçüncü"};
     String icerik[]={"Bir","İki","Üç"};*/
@@ -74,7 +76,8 @@ public class Tab1 extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        recreate = false;
+        //getActivity().recreate();
     }
 
     @Override
@@ -84,11 +87,13 @@ public class Tab1 extends Fragment{
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
         firebaseAdapter = new FirebaseAdapter();
         notListesi = (ListView) view.findViewById(R.id.tab1_lvNotlar);
-        firebaseAdapter.notlarıDownloadEt(this.getContext(),notListesi);
+        firebaseAdapter.notlarıDownloadEt(this.getActivity(),notListesi);
 
 
         return view;
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
