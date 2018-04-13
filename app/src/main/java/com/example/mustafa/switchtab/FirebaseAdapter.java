@@ -125,13 +125,11 @@ class FirebaseAdapter {
 
     // Üye Programa Girişini Yapan Method
     void uyeGirisYap(final String email, final String password, final Context c){
+        girisYapanKullaniciAdiDondur(email);
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener((Activity) c, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    if(FirstActivity.autoLogin.getBoolean("girisYapildi",false) != true){
-                        girisYapanKullaniciAdiDondur(email);
-                    }
 
                     Intent intent = new Intent(c,MainActivity.class);
                     c.startActivity(intent);
@@ -169,6 +167,7 @@ class FirebaseAdapter {
                         FirstActivity.autoLogin.edit().putString("username",hashMap.get("KullaniciAdi").toString()).apply();
                         FirstActivity.autoLogin.edit().putBoolean("girisYapildi",true).apply();
                         FirstActivity.autoLogin.edit().putBoolean("misafir",false).apply();
+                        myRef.removeEventListener(this);
                     }
                 }
             }
@@ -216,11 +215,11 @@ class FirebaseAdapter {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("----------->      " +dataSnapshot.getValue().toString());
+                //System.out.println("----------->      " +dataSnapshot.getValue().toString());
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     HashMap<String,String> hashMapNotlar = (HashMap<String, String>) ds.getValue();
-                    System.out.println("----------->      " +hashMapNotlar.get("Not_Baslik").toString());
-                    System.out.println("----------->      " +hashMapNotlar.get("Not_Icerik").toString());
+                    //System.out.println("----------->      " +hashMapNotlar.get("Not_Baslik").toString());
+                    //System.out.println("----------->      " +hashMapNotlar.get("Not_Icerik").toString());
                     baslik.add(hashMapNotlar.get("Not_Baslik").toString());
                     icerik.add(hashMapNotlar.get("Not_Icerik").toString());
                     listView.setAdapter(new NotGosterAdapter(c,baslik,icerik));
