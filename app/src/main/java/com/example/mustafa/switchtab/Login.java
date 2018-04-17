@@ -22,7 +22,7 @@ public class Login extends AppCompatActivity {
         firebaseAdapter=new FirebaseAdapter();
     }
     public void login(View v){
-        if(!email.getText().toString().equals("")){
+        if(!email.getText().toString().equals("") && !password.getText().toString().equals("")){
             firebaseAdapter.uyeGirisYap(email.getText().toString(),password.getText().toString(),this);
         }
         else{

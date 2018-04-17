@@ -18,6 +18,8 @@ public class FirstActivity extends AppCompatActivity {
     * Key: misafir          | Misafir Girişi Yapıldı/Yapılmadı (true "Yapıldı")
     * */
 
+
+    public static KullaniciClass kullanici;
     FirebaseAdapter login;
 
     @Override
@@ -26,6 +28,7 @@ public class FirstActivity extends AppCompatActivity {
         setContentView(R.layout.activity_first);
 
         autoLogin=this.getSharedPreferences("com.example.mustafa.switchtab", Context.MODE_PRIVATE);
+        kullanici=new KullaniciClass();
 
         login=new FirebaseAdapter();
         login.otoLoginYap(this);

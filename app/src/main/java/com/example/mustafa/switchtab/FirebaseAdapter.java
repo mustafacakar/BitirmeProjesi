@@ -180,30 +180,19 @@ class FirebaseAdapter {
     }
 
 
-    boolean notuUploadEt(String baslik, String icerik, Context c){
-        String uuid= UUID.randomUUID().toString();
-        basariliIslem=0;
-        if(myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(uuid).child("Not_Baslik").setValue(baslik).isSuccessful()){
-            basariliIslem++;
-        }
-
-        if(myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(uuid).child("Not_Icerik").setValue(icerik).isSuccessful()){
-            basariliIslem++;
-        }
-
-        //sebebini bilmediğim şekilde böyle çalışıyor elleşmeyin beyler -- Tolga
-        if(basariliIslem!=2){
-            Toast.makeText(c,"Not Başarıyla Eklendi",Toast.LENGTH_LONG).show();
-
-            //NotlarıDownloadEderken Kolaylık Olsun Diye, Kullanıcı Tablosuna Not ID'sini Ekliyorum
-            //myRef.child("KeepNoteApp").child("Kullanicilar").child("Notlar").setValue(uuid);
-            return true;
-        }
-        else{
-            Toast.makeText(c,"Not Eklenemedi",Toast.LENGTH_LONG).show();
-            myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(uuid).removeValue();
-            return false;
-        }
+    boolean notuUploadEt(NotClass not, Context c){
+        String anlikZaman = not.getStringEklendigiTarih();
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Baslik").setValue(not.getNotBaslik());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Icerik").setValue(not.getNotIcerik());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Sahibi").setValue(not.getNotSahibi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Hedefi").setValue(not.getNotHedefi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Resmi").setValue(not.getNotResmi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih").child("Not_Tarih_Yil").setValue(not.getYil());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih").child("Not_Tarih_Ay").setValue(not.getAy());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih").child("Not_Tarih_Gun").setValue(not.getGun());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih").child("Not_Tarih_Saat").setValue(not.getSaat());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih").child("Not_Tarih_Dakika").setValue(not.getDakika());
+        return true;
     }
 
     void notlarıDownloadEt(final Context c, final ListView listView){
