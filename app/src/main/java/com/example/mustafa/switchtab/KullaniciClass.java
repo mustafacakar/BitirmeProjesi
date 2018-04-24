@@ -19,9 +19,9 @@ public class KullaniciClass {
         kullaniciAdi=null;
         email=null;
         sifre=null;
-        notlar=new ArrayList<NotClass>();
+        notlar= new ArrayList<>();
         notIndis=-1;
-        arkadasListesi = new ArrayList<KullaniciClass>();
+        arkadasListesi = new ArrayList<>();
         arkadasIndis=-1;
     }
 
@@ -84,6 +84,12 @@ public class KullaniciClass {
             return false;
         }
     }
+    public int notSayisi(){
+        return notlar.size();
+    }
+    public ArrayList<NotClass> notlariAl(){
+        return notlar;
+    }
 
     public void arkadasEkle(KullaniciClass arkadas){
         arkadasListesi.add(arkadas);
@@ -114,5 +120,8 @@ public class KullaniciClass {
         else{
             return false;
         }
+    }
+    public int arkadasSayisi(){
+        return arkadasListesi.size();
     }
 }

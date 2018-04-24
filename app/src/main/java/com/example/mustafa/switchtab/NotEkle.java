@@ -1,7 +1,10 @@
 package com.example.mustafa.switchtab;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +28,8 @@ public class NotEkle extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_not_ekle);
 
+        //Toast.makeText(getApplicationContext(),FirstActivity.kullanici.notSayisi(),Toast.LENGTH_SHORT).show();
+
         firebaseAdapter = new FirebaseAdapter();
 
         baslik= (EditText) findViewById(R.id.notEkle_etBaslik);
@@ -38,6 +43,22 @@ public class NotEkle extends AppCompatActivity {
             notOlustur();
             if (firebaseAdapter.notuUploadEt(eklenecekNot,this)){
                 basariliKayit=true;
+
+
+                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Intent myIntent;
+                PendingIntent pendingIntent;
+
+                myIntent = new Intent(this,BildirimAlici.class);
+                BildirimAlici.baslik = baslik.getText().toString();
+                BildirimAlici.icerik = icerik.getText().toString();
+                BildirimAlici.context = getApplicationContext();
+                pendingIntent=PendingIntent.getBroadcast(this,0,myIntent,0);
+
+                manager.set(AlarmManager.RTC_WAKEUP, eklenecekNot.getTakvim().getTimeInMillis(),pendingIntent);
+
+                //FirstActivity.kullanici.notEkle(eklenecekNot);
+                //Toast.makeText(getApplicationContext(),eklenecekNot.getNotResmi(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
             }
@@ -51,6 +72,7 @@ public class NotEkle extends AppCompatActivity {
         eklenecekNot.setNotIcerik(icerik.getText().toString());
         eklenecekNot.setNotSahibi(FirstActivity.kullanici.getKullaniciAdi());
         eklenecekNot.setNotHedefi(FirstActivity.kullanici.getKullaniciAdi());
+        eklenecekNot.setNotResmi("Eklenmedi");
     }
 
     public void takvimAc(View v){
@@ -59,8 +81,8 @@ public class NotEkle extends AppCompatActivity {
      }
 
     public void takvimKur(){
-        int saat = eklenecekNot.getTakvim().get(Calendar.HOUR_OF_DAY);
-        int dakika = eklenecekNot.getTakvim().get(Calendar.MINUTE);
+        final int saat = eklenecekNot.getTakvim().get(Calendar.HOUR_OF_DAY);
+        final int dakika = eklenecekNot.getTakvim().get(Calendar.MINUTE);
         final TimePickerDialog timePicker; //Time Picker referansımızı oluşturduk
 
 
@@ -70,6 +92,26 @@ public class NotEkle extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 eklenecekNot.setSaat(selectedHour);
                 eklenecekNot.setDakika(selectedMinute);
+
+                if(saat>eklenecekNot.getSaat())
+                {
+                    eklenecekNot.setGun((eklenecekNot.getGun()+1));
+                    if(eklenecekNot.getGun()==30)
+                    {
+                        eklenecekNot.setYil((eklenecekNot.getYil()+1));
+                    }
+                }
+                else if(saat==eklenecekNot.getSaat())
+                {
+                    if(dakika>eklenecekNot.getDakika())
+                    {
+                        eklenecekNot.setGun((eklenecekNot.getGun()+1));
+                        if(eklenecekNot.getGun()==30)
+                        {
+                            eklenecekNot.setYil((eklenecekNot.getYil()+1));
+                        }
+                    }
+                }
 
                 Toast.makeText(getApplicationContext(),"Ayarlanan Tarih "+eklenecekNot.getTakvim().get(Calendar.DAY_OF_MONTH)+"."+eklenecekNot.getTakvim().get(Calendar.MONTH)+"."+eklenecekNot.getTakvim().get(Calendar.YEAR)+" Saat:"+eklenecekNot.getTakvim().get(Calendar.HOUR_OF_DAY)+":"+eklenecekNot.getTakvim().get(Calendar.MINUTE),Toast.LENGTH_LONG).show();
             }
