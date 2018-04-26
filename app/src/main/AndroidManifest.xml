@@ -26,7 +26,7 @@
         <receiver android:name=".BildirimAlici" />
 
         <activity android:name=".AlarmActivity" />
-        <activity android:name=".NotDuzenle"></activity>
+        <activity android:name=".NotDuzenle"/>
     </application>
 
 </manifest>
