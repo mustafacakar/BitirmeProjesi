@@ -22,20 +22,20 @@ public class NotGosterAdapter extends BaseAdapter {
     LayoutInflater layoutInflater = null;
 
 
-    ArrayList<String> basliklar = new ArrayList<String>();
+    /*ArrayList<String> basliklar = new ArrayList<String>();
     ArrayList<String> icerikler = new ArrayList<String>();
-    /*String basliklar[];
+    String basliklar[];
     String icerikler[];*/
 
-    public NotGosterAdapter(Context context,  ArrayList<String> basliklar, ArrayList<String> icerikler){
+    public NotGosterAdapter(Context context){
         this.context = context;
-        this.basliklar = basliklar;
-        this.icerikler = icerikler;
+        /*this.basliklar = basliklar;
+        this.icerikler = icerikler;*/
     }
 
     @Override
     public int getCount() {
-        return basliklar.size();
+        return FirstActivity.kullanici.notSayisi();
     }
 
     @Override
@@ -50,7 +50,6 @@ public class NotGosterAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View view = convertView;
 
         if(view == null){
@@ -61,8 +60,9 @@ public class NotGosterAdapter extends BaseAdapter {
         TextView baslik = (TextView) view.findViewById(R.id.notGorunum_tvNotBaslik);
         TextView icerik = (TextView) view.findViewById(R.id.notGorunum_tvNotIcerik);
 
-        baslik.setText(basliklar.get(position));
-        icerik.setText(icerikler.get(position));
+
+        baslik.setText(FirstActivity.kullanici.notuBul(position).getNotBaslik());
+        icerik.setText(FirstActivity.kullanici.notuBul(position).getNotIcerik());
 
         return view;
     }

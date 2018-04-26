@@ -29,21 +29,19 @@ public class NotEkle extends AppCompatActivity {
         setContentView(R.layout.activity_not_ekle);
 
         //Toast.makeText(getApplicationContext(),FirstActivity.kullanici.notSayisi(),Toast.LENGTH_SHORT).show();
-
+        eklenecekNot=new NotClass();
         firebaseAdapter = new FirebaseAdapter();
 
         baslik= (EditText) findViewById(R.id.notEkle_etBaslik);
         icerik = (EditText) findViewById(R.id.notEkle_etIcerik);
-
-        eklenecekNot=new NotClass();
     }
 
     public void olustur(View v){
         if(!baslik.getText().toString().equals("") && !icerik.getText().toString().equals("")){
             notOlustur();
-            if (firebaseAdapter.notuUploadEt(eklenecekNot,this)){
+            if (firebaseAdapter.notuUploadEt(eklenecekNot)){
                 basariliKayit=true;
-
+                FirstActivity.kullanici.notEkle(eklenecekNot);
 
                 AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 Intent myIntent;

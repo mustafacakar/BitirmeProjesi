@@ -87,8 +87,14 @@ public class KullaniciClass {
     public int notSayisi(){
         return notlar.size();
     }
+    public void notlariTemizle(){
+        notlar.clear();
+    }
     public ArrayList<NotClass> notlariAl(){
         return notlar;
+    }
+    public NotClass notuBul(int index){
+        return notlar.get(index);
     }
 
     public void arkadasEkle(KullaniciClass arkadas){

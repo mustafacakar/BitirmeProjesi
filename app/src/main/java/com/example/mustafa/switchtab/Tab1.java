@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatCallback;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,7 +40,8 @@ public class Tab1 extends Fragment{
 
     private ListView notListesi;
     FirebaseAdapter firebaseAdapter;
-    boolean recreate;
+    int duzenlenecekNot;
+    NotGosterAdapter notGosterAdapter;
 
     /*String baslik[]={"Birinci","İkinci","Üçüncü"};
     String icerik[]={"Bir","İki","Üç"};*/
@@ -76,8 +80,37 @@ public class Tab1 extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        recreate = false;
+        //recreate = false;
         //getActivity().recreate();
+    }
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        this.getActivity().getMenuInflater().inflate(R.menu.not_context_menu,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.context_menu_duzenle:
+                //Toast.makeText(getActivity(),"Düzenle -> "+duzenlenecekNot,Toast.LENGTH_SHORT).show();
+                Intent duzenle = new Intent(getActivity(),NotDuzenle.class);
+                duzenle.putExtra("NotSira",duzenlenecekNot);
+                startActivity(duzenle);
+                return true;
+            case R.id.context_menu_sil:
+                //Toast.makeText(getActivity(),"Sil -> "+duzenlenecekNot,Toast.LENGTH_SHORT).show();
+                firebaseAdapter.notuSil(FirstActivity.kullanici.notuBul(duzenlenecekNot));
+                FirstActivity.kullanici.notlariAl().remove(duzenlenecekNot);
+                notGosterAdapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
     }
 
     @Override
@@ -85,9 +118,22 @@ public class Tab1 extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+        notGosterAdapter = new NotGosterAdapter(getActivity());
         firebaseAdapter = new FirebaseAdapter();
         notListesi = (ListView) view.findViewById(R.id.tab1_lvNotlar);
-        firebaseAdapter.notlarıDownloadEt(this.getActivity(),notListesi);
+        firebaseAdapter.notlarıDownloadEt(this.getActivity(),notListesi,notGosterAdapter);
+        registerForContextMenu(notListesi);
+
+        notListesi.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //duzenlenecekNot = (position-FirstActivity.kullanici.notSayisi())+1;
+                duzenlenecekNot = position;
+                return false;
+            }
+        });
+
+
 
 
         return view;
@@ -135,4 +181,9 @@ public class Tab1 extends Fragment{
         void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 }

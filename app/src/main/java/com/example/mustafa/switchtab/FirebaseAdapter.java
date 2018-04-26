@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -133,6 +134,7 @@ class FirebaseAdapter {
     // Üye Programa Girişini Yapan Method
     void uyeGirisYap(final String email, final String password, final Context c){
         girisYapanKullaniciAdiDondur(email);
+        //notlarıDownloadEt2();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener((Activity) c, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -179,9 +181,10 @@ class FirebaseAdapter {
                         FirstActivity.kullanici.setKullaniciAdi(hashMap.get("KullaniciAdi").toString());
                         FirstActivity.kullanici.setEmail(hashMap.get("E-Mail").toString());
                         FirstActivity.kullanici.setAdSoyad(hashMap.get("Isim").toString());
-                        myRef.removeEventListener(this);
+
                     }
                 }
+                myRef.removeEventListener(this);
             }
 
             @Override
@@ -192,37 +195,42 @@ class FirebaseAdapter {
     }
 
 
-    boolean notuUploadEt(NotClass not, Context c){
-        String anlikZaman = not.getStringEklendigiTarih();
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Baslik").setValue(not.getNotBaslik());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Icerik").setValue(not.getNotIcerik());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Sahibi").setValue(not.getNotSahibi());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Hedefi").setValue(not.getNotHedefi());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Resmi").setValue(not.getNotResmi());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih").setValue(anlikZaman);
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih_Yil").setValue(not.getYil());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih_Ay").setValue(not.getAy());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih_Gun").setValue(not.getGun());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih_Saat").setValue(not.getSaat());
-        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(anlikZaman).child("Not_Tarih_Dakika").setValue(not.getDakika());
+    boolean notuUploadEt(NotClass not){
+        //String anlikZaman = not.getStringEklendigiTarih();
+        //int notSayisi = (0-FirstActivity.kullanici.notSayisi());
+        int notSira = 0;
+        if(FirstActivity.kullanici.notSayisi()>0){
+            notSira = FirstActivity.kullanici.notuBul(0).getNotSira() -1;
+        }
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Baslik").setValue(not.getNotBaslik());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Icerik").setValue(not.getNotIcerik());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Sahibi").setValue(not.getNotSahibi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Hedefi").setValue(not.getNotHedefi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Resmi").setValue(not.getNotResmi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Sira").setValue(notSira);
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Tarih_Yil").setValue(not.getYil());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Tarih_Ay").setValue(not.getAy());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Tarih_Gun").setValue(not.getGun());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Tarih_Saat").setValue(not.getSaat());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Tarih_Dakika").setValue(not.getDakika());
         return true;
     }
 
-    void notlarıDownloadEt(final Context c, final ListView listView){
+    void notlarıDownloadEt(final Context c, final ListView listView, final NotGosterAdapter notAdapter){
         firebaseDatabase= FirebaseDatabase.getInstance();
         myRef = firebaseDatabase.getReference("KeepNoteApp/Notlar/"+FirstActivity.autoLogin.getString("username",null).toString());
-        final NotClass indirilenNot = new NotClass();
-
+        FirstActivity.kullanici.notlariTemizle();
 
         final ArrayList<String> baslik = new ArrayList<String>();
         final ArrayList<String> icerik = new ArrayList<String>();
-        myRef.orderByChild("Not_Tarih").addValueEventListener(new ValueEventListener() {
+        myRef.orderByChild("Not_Sira").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 /*System.out.println("----------->      " +dataSnapshot.getValue().toString());
                 System.out.println("----------->      " +dataSnapshot.getRef().toString());*/
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     Map<String,Object> hashMapNotlar = (HashMap<String, Object>) ds.getValue();
+                    final NotClass indirilenNot = new NotClass();
 
                     baslik.add(hashMapNotlar.get("Not_Baslik").toString());
                     icerik.add(hashMapNotlar.get("Not_Icerik").toString());
@@ -232,7 +240,7 @@ class FirebaseAdapter {
                     indirilenNot.setNotHedefi(hashMapNotlar.get("Not_Hedefi").toString());
                     indirilenNot.setNotResmi(hashMapNotlar.get("Not_Resmi").toString());
 
-
+                    indirilenNot.setNotSira(Integer.valueOf(hashMapNotlar.get("Not_Sira").toString()));
                     indirilenNot.setYil(Integer.valueOf(hashMapNotlar.get("Not_Tarih_Yil").toString()));
                     indirilenNot.setAy(Integer.valueOf(hashMapNotlar.get("Not_Tarih_Ay").toString()));
                     indirilenNot.setGun(Integer.valueOf(hashMapNotlar.get("Not_Tarih_Gun").toString()));
@@ -240,18 +248,47 @@ class FirebaseAdapter {
                     indirilenNot.setDakika(Integer.valueOf(hashMapNotlar.get("Not_Tarih_Dakika").toString()));
 
                     FirstActivity.kullanici.notEkle(indirilenNot);
-                    Toast.makeText(c,FirstActivity.kullanici.notSayisi()+"--",Toast.LENGTH_SHORT).show();
-                    if(FirstActivity.kullanici.notSayisi()>0){
-                        listView.setAdapter(new NotGosterAdapter(c,baslik,icerik));
-                    }
-                    else{
-                        Toast.makeText(c,"Henüz Not Eklenmemiş",Toast.LENGTH_SHORT).show();
-                    }
+                    listView.setAdapter(notAdapter);
                     // Bu Kod Yazılmazsa, devamlı çekmeye çalışıyor. Ekleme İşlemi yaptığımızda da
                     // database okuma işlemiyle meşgul olduğu için, 2.kere çekme işlemi başlatamıyor anladığım kadarıyla
-                    myRef.removeEventListener(this);
-                }
 
+                }
+                myRef.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void notuDuzenle(NotClass not){
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Baslik").setValue(not.getNotBaslik());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Icerik").setValue(not.getNotIcerik());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Sahibi").setValue(not.getNotSahibi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Hedefi").setValue(not.getNotHedefi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Resmi").setValue(not.getNotResmi());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Sira").setValue(not.getNotSira());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Tarih_Yil").setValue(not.getYil());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Tarih_Ay").setValue(not.getAy());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Tarih_Gun").setValue(not.getGun());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Tarih_Saat").setValue(not.getSaat());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Tarih_Dakika").setValue(not.getDakika());
+
+    }
+
+    void notuSil(NotClass not){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        final Query silinecekNot = ref.child("KeepNoteApp/Notlar/"+FirstActivity.autoLogin.getString("username",null).toString()).orderByChild("Not_Sira").equalTo(not.getNotSira());
+
+        silinecekNot.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot notSnapshot: dataSnapshot.getChildren()) {
+                    notSnapshot.getRef().removeValue();
+                }
+                silinecekNot.removeEventListener(this);
             }
 
             @Override

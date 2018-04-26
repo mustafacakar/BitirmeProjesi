@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/uygulama_arkaplan"
+    tools:context="com.example.mustafa.switchtab.NotDuzenle">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.041"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/notDuzenle_tvNotIcerik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Not İçerik"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/first_buttonArkaplan"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/notDuzenle_etNotIcerik"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:background="@drawable/edit_text_tasarim"
+            android:paddingTop="8dp"
+            android:gravity="top"
+            android:hint="Not İçeriği Giriniz"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/notDuzenle_btnTakvim"
+        android:layout_width="88dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="81dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="81dp"
+        android:layout_marginTop="27dp"
+        android:background="@drawable/takvim_saat"
+        android:onClick="takvimKur"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/notDuzenle_btnKonum"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/notDuzenle_tvTakvim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Takvim ve Saat"
+        android:textColor="@color/first_buttonArkaplan"
+        android:layout_marginTop="9dp"
+        app:layout_constraintTop_toBottomOf="@+id/notDuzenle_btnTakvim"
+        android:layout_marginLeft="74dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/notDuzenle_btnKonum"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="8dp" />
+
+    <Button
+        android:id="@+id/notDuzenle_btnKonum"
+        android:layout_width="88dp"
+        android:layout_height="75dp"
+        android:background="@drawable/not_konum_ekle_button"
+        android:layout_marginRight="71dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.109"
+        android:layout_marginEnd="71dp" />
+
+    <TextView
+        android:id="@+id/notDuzenle_tvKonum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Konum Desteği"
+        android:textColor="@color/first_buttonArkaplan"
+        app:layout_constraintLeft_toRightOf="@+id/notDuzenle_tvTakvim"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/notDuzenle_btnKonum"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintVertical_bias="0.007"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.078"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1">
+
+        <TextView
+            android:id="@+id/notDuzenle_tvNotBaslik"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:text="Not Başlık"
+            android:textColor="@color/first_buttonArkaplan"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/notDuzenle_etNotBaslik"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_tasarim"
+            android:ems="10"
+            android:hint="Not Başlığı Giriniz"
+            android:inputType="textPersonName" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/notDuzenle_btnDuzenle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/first_activity_buttons"
+        android:onClick="duzenle"
+        android:text="Düzenle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.713" />
+
+</android.support.constraint.ConstraintLayout>

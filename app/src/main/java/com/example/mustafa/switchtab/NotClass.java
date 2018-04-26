@@ -6,6 +6,7 @@ public class NotClass extends TakvimClass{
     private String notSahibi;
     private String notHedefi;
     private String notResmi;
+    private int notSira;
 
     NotClass(){
         notBaslik=null;
@@ -13,6 +14,7 @@ public class NotClass extends TakvimClass{
         notSahibi=FirstActivity.autoLogin.getString("username",null);
         notHedefi=null;
         notResmi=null;
+        notSira=0;
     }
 
     NotClass(String notBaslik,String notIcerik, String notSahibi, String notHedefi, String notResmi){
@@ -47,4 +49,11 @@ public class NotClass extends TakvimClass{
         this.notResmi=notResmi;
     }
     public String getNotResmi(){return notResmi;}
+
+    public void setNotSira(int notSira){
+        this.notSira=notSira;
+    }
+    public int getNotSira(){
+        return notSira;
+    }
 }
