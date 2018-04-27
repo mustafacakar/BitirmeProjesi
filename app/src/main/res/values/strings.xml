@@ -30,4 +30,6 @@
     <!-- NotEkle Textleri -->
     <string name="notEkle_baslik">Not Başlığını Girin</string>
     <string name="notEkle_icerik">Not İçeriğini Girin</string>
+    <!--Denemelik-->
+    <string name="twitterUsername">\@joeytribbiani</string>
 </resources>
