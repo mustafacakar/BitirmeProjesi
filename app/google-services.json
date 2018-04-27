@@ -1,0 +1,79 @@
+{
+  "project_info": {
+    "project_number": "175331457021",
+    "firebase_url": "https://keepnoteapp-cbc9a.firebaseio.com",
+    "project_id": "keepnoteapp-cbc9a",
+    "storage_bucket": "keepnoteapp-cbc9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175331457021:android:081f36f0fe516ac5",
+        "android_client_info": {
+          "package_name": "com.example.mustafa.switchtab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175331457021-j5s6vcn9tl39v4o86i0cqn08menm9reo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mustafa.switchtab",
+            "certificate_hash": "6376bdac855c74ea2be4238df83fe07286cef114"
+          }
+        },
+        {
+          "client_id": "175331457021-ure4sanj6d47d857ksaa60r445llpqdd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mustafa.switchtab",
+            "certificate_hash": "1682ca7ff6aa95a0d1a8c7ae8d878fbd2b62704a"
+          }
+        },
+        {
+          "client_id": "175331457021-tlttofvu8dala7ihfifrm4eg3sfl3qho.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mustafa.switchtab",
+            "certificate_hash": "fc677514ce177cf48a87a9f6ca2e740e4c056b2f"
+          }
+        },
+        {
+          "client_id": "175331457021-a1tprto24e0grav9s5vrib1hb516i9ts.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mustafa.switchtab",
+            "certificate_hash": "58aaa42c0390a18bc5911cb8b4d348357a4ba1df"
+          }
+        },
+        {
+          "client_id": "175331457021-rp7vrelmd0kugmivd7m34ctkl6bumqm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALTCqTqsJDy9TC-dGQHKtlys6-aV8tlv4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175331457021-rp7vrelmd0kugmivd7m34ctkl6bumqm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

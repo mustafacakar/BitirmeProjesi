@@ -18,13 +18,15 @@ public class FirstActivity extends AppCompatActivity {
     * Key: misafir          | Misafir Girişi Yapıldı/Yapılmadı (true "Yapıldı")
     * */
 
+
+    public static KullaniciClass kullanici;
     FirebaseAdapter login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
-
+        kullanici=new KullaniciClass();
         autoLogin=this.getSharedPreferences("com.example.mustafa.switchtab", Context.MODE_PRIVATE);
 
         login=new FirebaseAdapter();
@@ -45,6 +47,14 @@ public class FirstActivity extends AppCompatActivity {
         autoLogin.edit().remove("username").apply();
         autoLogin.edit().remove("girisYapildi").apply();
         autoLogin.edit().remove("misafir").apply();
+    }
+    private void ilkShared(){
+        FirstActivity.autoLogin.edit().putString("email",null).apply();
+        FirstActivity.autoLogin.edit().putString("password",null).apply();
+        FirstActivity.autoLogin.edit().putString("username",null).apply();
+        FirstActivity.autoLogin.edit().putBoolean("girisYapildi",false).apply();
+        FirstActivity.autoLogin.edit().putBoolean("misafir",false).apply();
+
     }
 
     @Override

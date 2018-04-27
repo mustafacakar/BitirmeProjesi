@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentIn
         cikisYap=false;
 
         baslik = (TextView) findViewById(R.id.main_tvHeader);
-        if(FirstActivity.autoLogin.getString("username",null)!=null){
-            baslik.setText("KeepNote'a Hoşgeldin, "+FirstActivity.autoLogin.getString("username",null));
+        if(FirstActivity.kullanici.getKullaniciAdi()!=null){
+            baslik.setText("KeepNote'a Hoşgeldin, "+FirstActivity.kullanici.getKullaniciAdi());
+
         }
         else{
             baslik.setText("KeepNote'a Hoşgeldin");
@@ -91,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentIn
         FirstActivity.autoLogin.edit().remove("username").apply();
         FirstActivity.autoLogin.edit().remove("girisYapildi").apply();
         FirstActivity.autoLogin.edit().remove("misafir").apply();
-
         Intent intent = new Intent(this,FirstActivity.class);
         startActivity(intent);
     }
