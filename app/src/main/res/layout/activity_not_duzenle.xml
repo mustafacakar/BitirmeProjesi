@@ -89,15 +89,16 @@
         android:id="@+id/notDuzenle_btnKonum"
         android:layout_width="88dp"
         android:layout_height="75dp"
-        android:background="@drawable/not_konum_ekle_button"
-        android:layout_marginRight="71dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="71dp"
+        android:layout_marginRight="71dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/not_konum_ekle_button"
+        android:onClick="konumDuzenle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.109"
-        android:layout_marginEnd="71dp" />
+        app:layout_constraintVertical_bias="0.109" />
 
     <TextView
         android:id="@+id/notDuzenle_tvKonum"
