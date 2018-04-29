@@ -121,8 +121,10 @@ public class Tab1 extends Fragment{
         notGosterAdapter = new NotGosterAdapter(getActivity());
         firebaseAdapter = new FirebaseAdapter();
         notListesi = (ListView) view.findViewById(R.id.tab1_lvNotlar);
-        firebaseAdapter.notlarıDownloadEt(this.getActivity(),notListesi,notGosterAdapter);
-        registerForContextMenu(notListesi);
+        if(FirstActivity.kullanici.getKullaniciAdi()!=null){
+            firebaseAdapter.notlarıDownloadEt(this.getActivity(),notListesi,notGosterAdapter);
+            registerForContextMenu(notListesi);
+        }
 
         notListesi.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

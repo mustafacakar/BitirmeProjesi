@@ -44,6 +44,7 @@ public class NotDuzenle extends AppCompatActivity {
     public void duzenle(View v){
         notOlustur();
         firebaseAdapter.notuDuzenle(FirstActivity.kullanici.notlariAl().get(notIndex));
+        this.finish();
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }
@@ -111,5 +112,10 @@ public class NotDuzenle extends AppCompatActivity {
         datePicker.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Vazgeç", datePicker);
 
         datePicker.show();
+    }
+
+    public void konumDuzenle(View v){
+        Intent konumAc = new Intent(this, KonumActivity.class);
+        startActivity(konumAc);
     }
 }

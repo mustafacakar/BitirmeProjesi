@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         cikisYap=false;
 
         baslik = (TextView) findViewById(R.id.main_tvHeader);
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentIn
         }
         else{
             baslik.setText("KeepNote'a Hoşgeldin");
+            recreate();
         }
 
         //Referanslar
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.OnFragmentIn
     }
 
     public void notEkle(View v){
+        this.finish();
         Intent intent = new Intent(this,NotEkle.class);
         startActivity(intent);
     }

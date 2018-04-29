@@ -57,6 +57,7 @@ public class NotEkle extends AppCompatActivity {
 
                 //FirstActivity.kullanici.notEkle(eklenecekNot);
                 //Toast.makeText(getApplicationContext(),eklenecekNot.getNotResmi(),Toast.LENGTH_SHORT).show();
+                this.finish();
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
             }
@@ -143,11 +144,23 @@ public class NotEkle extends AppCompatActivity {
         datePicker.show();
     }
 
+    public void konumSec(View v){
+        Intent konumAc = new Intent(this, KonumActivity.class);
+        startActivity(konumAc);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
-        if(basariliKayit){
+        /*if(basariliKayit){
             this.finish();
-        }
+        }*/
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 }

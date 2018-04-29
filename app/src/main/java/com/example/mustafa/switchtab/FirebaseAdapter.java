@@ -133,11 +133,12 @@ class FirebaseAdapter {
 
     // Üye Programa Girişini Yapan Method
     void uyeGirisYap(final String email, final String password, final Context c){
-        girisYapanKullaniciAdiDondur(email);
+
         //notlarıDownloadEt2();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener((Activity) c, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                girisYapanKullaniciAdiDondur(email);
                 if(task.isSuccessful()){
 
                     Intent intent = new Intent(c,MainActivity.class);
@@ -181,7 +182,7 @@ class FirebaseAdapter {
                         FirstActivity.kullanici.setKullaniciAdi(hashMap.get("KullaniciAdi").toString());
                         FirstActivity.kullanici.setEmail(hashMap.get("E-Mail").toString());
                         FirstActivity.kullanici.setAdSoyad(hashMap.get("Isim").toString());
-
+                        myRef.removeEventListener(this);
                     }
                 }
                 myRef.removeEventListener(this);

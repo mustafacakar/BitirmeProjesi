@@ -1,5 +1,12 @@
 package com.example.mustafa.switchtab;
 
+import android.location.Address;
+import android.location.Geocoder;
+
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
+
 public class NotClass extends TakvimClass{
     private String notBaslik;
     private String notIcerik;
@@ -7,6 +14,8 @@ public class NotClass extends TakvimClass{
     private String notHedefi;
     private String notResmi;
     private int notSira;
+    private List<Address> adresBilgisi;
+    LatLng adresKoordinat;
 
     NotClass(){
         notBaslik=null;
@@ -15,6 +24,8 @@ public class NotClass extends TakvimClass{
         notHedefi=null;
         notResmi=null;
         notSira=0;
+        adresBilgisi=null;
+        adresKoordinat=null;
     }
 
     NotClass(String notBaslik,String notIcerik, String notSahibi, String notHedefi, String notResmi){
@@ -55,5 +66,19 @@ public class NotClass extends TakvimClass{
     }
     public int getNotSira(){
         return notSira;
+    }
+
+    public void setAdresBilgisi(List<Address> adresBilgisi){
+        this.adresBilgisi=adresBilgisi;
+    }
+    public List<Address> getAdresBilgisi(){
+        return adresBilgisi;
+    }
+
+    public void setAdresKoordinat(LatLng adresKoordinat){
+        this.adresKoordinat=adresKoordinat;
+    }
+    public LatLng getAdresKoordinat(){
+        return adresKoordinat;
     }
 }
