@@ -214,6 +214,8 @@ class FirebaseAdapter {
         myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Tarih_Gun").setValue(not.getGun());
         myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Tarih_Saat").setValue(not.getSaat());
         myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Tarih_Dakika").setValue(not.getDakika());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Konum_Lat").setValue(not.getAdresKoordinat().latitude);
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(notSira)).child("Not_Konum_Lng").setValue(not.getAdresKoordinat().longitude);
         return true;
     }
 
@@ -248,6 +250,8 @@ class FirebaseAdapter {
                     indirilenNot.setSaat(Integer.valueOf(hashMapNotlar.get("Not_Tarih_Saat").toString()));
                     indirilenNot.setDakika(Integer.valueOf(hashMapNotlar.get("Not_Tarih_Dakika").toString()));
 
+                    indirilenNot.setAdresKoordinat(Double.valueOf(hashMapNotlar.get("Not_Konum_Lat").toString()),Double.valueOf(hashMapNotlar.get("Not_Konum_Lng").toString()));
+
                     FirstActivity.kullanici.notEkle(indirilenNot);
                     listView.setAdapter(notAdapter);
                     // Bu Kod Yazılmazsa, devamlı çekmeye çalışıyor. Ekleme İşlemi yaptığımızda da
@@ -276,6 +280,8 @@ class FirebaseAdapter {
         myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Tarih_Gun").setValue(not.getGun());
         myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Tarih_Saat").setValue(not.getSaat());
         myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Tarih_Dakika").setValue(not.getDakika());
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Konum_Lat").setValue(not.getAdresKoordinat().latitude);
+        myRef.child("KeepNoteApp").child("Notlar").child(FirstActivity.autoLogin.getString("username",null)).child(String.valueOf(not.getNotSira())).child("Not_Konum_Lng").setValue(not.getAdresKoordinat().longitude);
 
     }
 

@@ -2,9 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mustafa.switchtab">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -31,11 +35,13 @@
 
         <activity android:name=".AlarmActivity" />
         <activity android:name=".NotDuzenle" />
-        <activity android:name=".KonumActivity"></activity>
+        <activity android:name=".KonumActivity" />
 
-        <meta-data android:name="com.google.android.geo.API_KEY"
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCGHcW5R0_7ul7G6fKn7YP3oJSu68_AnBs" />
+
+        <activity android:name=".KonumDuzenle"></activity>
     </application>
 
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 </manifest>

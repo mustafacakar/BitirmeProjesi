@@ -21,6 +21,7 @@
     <!-- Profile - Fragment_Tab3.xml -->
     <color name="profilePrimary">#49BEFF</color>
     <color name="profilePrimaryDark">#65DCE5</color>
+    <color name="ortaSerit">#102a3e</color>
     <color name="accent">#0D5D98</color>
     <color name="address">#2F7092</color>
     <color name="followers">#0D5D98</color>

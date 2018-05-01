@@ -15,7 +15,7 @@ public class NotClass extends TakvimClass{
     private String notResmi;
     private int notSira;
     private List<Address> adresBilgisi;
-    LatLng adresKoordinat;
+    private LatLng adresKoordinat;
 
     NotClass(){
         notBaslik=null;
@@ -28,12 +28,13 @@ public class NotClass extends TakvimClass{
         adresKoordinat=null;
     }
 
-    NotClass(String notBaslik,String notIcerik, String notSahibi, String notHedefi, String notResmi){
+    NotClass(String notBaslik,String notIcerik, String notSahibi, String notHedefi, String notResmi, LatLng adresKoordinat){
         this.notBaslik=notBaslik;
         this.notIcerik=notIcerik;
         this.notSahibi=notSahibi;
         this.notHedefi=notHedefi;
         this.notResmi=notResmi;
+        this.adresKoordinat=adresKoordinat;
     }
 
     public void setNotBaslik(String notBaslik){
@@ -78,7 +79,14 @@ public class NotClass extends TakvimClass{
     public void setAdresKoordinat(LatLng adresKoordinat){
         this.adresKoordinat=adresKoordinat;
     }
+    public void setAdresKoordinat(double lat, double lng){
+        LatLng latLng = new LatLng(lat,lng);
+        adresKoordinat=latLng;
+    }
     public LatLng getAdresKoordinat(){
         return adresKoordinat;
+    }
+    public void adresKoordinatSil(){
+        this.adresKoordinat=null;
     }
 }

@@ -2,28 +2,28 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/genel_acikMavi"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mustafa.switchtab.Tab3">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/uygulama_arkaplan">
 
     <RelativeLayout
-        android:id="@+id/rellay1"
+        android:id="@+id/profil_relUst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:paddingBottom="20dp">
+        android:paddingBottom="10dp">
 
         <RelativeLayout
             android:id="@+id/imgUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/circle_border">
 
             <ImageView
@@ -48,7 +48,7 @@
             android:fontFamily="sans-serif-light"
             android:text="Mustafa Çakar"
             android:textColor="@color/white"
-            android:textSize="32sp" />
+            android:textSize="25sp" />
 
 
         <TextView
@@ -60,8 +60,8 @@
             android:fontFamily="sans-serif"
             android:text="sakarya,türkiye"
             android:textAllCaps="true"
-            android:textColor="@color/address"
-            android:textSize="14sp" />
+            android:textColor="@color/white"
+            android:textSize="13sp" />
 
         <ImageView
             android:layout_width="40dp"
@@ -76,18 +76,18 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linlay1"
+        android:id="@+id/profil_linOrta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rellay1"
-        android:orientation="horizontal">
+        android:layout_below="@id/profil_relUst"
+        android:orientation="horizontal"
+        android:background="@color/ortaSerit">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/address"
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingTop="5dp">
@@ -104,7 +104,7 @@
                     android:fontFamily="sans-serif-light"
                     android:text="23"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
+                    android:textSize="23sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,7 +124,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/address"
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingTop="5dp">
@@ -141,7 +140,7 @@
                     android:fontFamily="sans-serif-light"
                     android:text="42"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
+                    android:textSize="23sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,109 +158,98 @@
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/linlay1"
-        android:background="@color/colorPrimaryDark">
-
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/profil_relAlt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/profil_linOrta">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kullanıcı Adı"
-                    android:textColor="@color/headings"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/profil_kullaniciAdi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="mustafa.cakar"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
-
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
-
-            </LinearLayout>
-
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:textColor="@color/headings"
-                    android:textSize="13sp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/profil_mail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="mustafacakar@gmail.com"
-                    android:textColor="#FFFF"
-                    android:textSize="18sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kullanıcı Adı"
+                        android:textColor="@color/headings"
+                        android:textSize="13sp" />
 
-                <View
+                    <TextView
+                        android:id="@+id/profil_kullaniciAdi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="mustafa.cakar"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/grey" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textColor="@color/headings"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/profil_mail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="mustafacakar@gmail.com"
+                        android:textColor="#FFFF"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/grey" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/profil_btnCikisYap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/first_activity_buttons"
+                    android:onClick="cikisYap"
+                    android:text="Çıkış Yap"
+                    android:textColor="@color/first_buttonText" />
+
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-            </LinearLayout>
-
-            <Button
-                android:layout_marginTop="15dp"
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/first_activity_buttons"
-                android:onClick="cikisYap"
-                android:text="Çıkış Yap"
-                android:textColor="@color/first_buttonText" />
-
-
-        </LinearLayout>
-
-
-
-    </RelativeLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

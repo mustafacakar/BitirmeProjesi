@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Calendar;
 
 public class NotEkle extends AppCompatActivity {
@@ -21,7 +23,7 @@ public class NotEkle extends AppCompatActivity {
     EditText baslik,icerik;
     FirebaseAdapter firebaseAdapter;
     boolean basariliKayit;
-    NotClass eklenecekNot;
+    public static NotClass eklenecekNot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

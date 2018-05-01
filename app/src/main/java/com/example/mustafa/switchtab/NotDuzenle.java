@@ -3,6 +3,8 @@ package com.example.mustafa.switchtab;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +14,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class NotDuzenle extends AppCompatActivity {
     int notIndex;
@@ -115,7 +122,8 @@ public class NotDuzenle extends AppCompatActivity {
     }
 
     public void konumDuzenle(View v){
-        Intent konumAc = new Intent(this, KonumActivity.class);
+        Intent konumAc = new Intent(this, KonumDuzenle.class);
+        konumAc.putExtra("notIndex", notIndex);
         startActivity(konumAc);
     }
 }
