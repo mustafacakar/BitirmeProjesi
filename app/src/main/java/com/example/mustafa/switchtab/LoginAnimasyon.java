@@ -13,8 +13,14 @@ public class LoginAnimasyon extends AppCompatActivity {
         setContentView(R.layout.activity_login_animasyon);
 
         firebaseAdapter=new FirebaseAdapter();
-        firebaseAdapter.girisYapanKullaniciAdiDondur(FirstActivity.autoLogin.getString("email",null).toString());
-        firebaseAdapter.uyeGirisYap(FirstActivity.autoLogin.getString("email",null).toString(),FirstActivity.autoLogin.getString("password",null).toString(),this);
+
+        if(getIntent().getExtras().getBoolean("login")){
+            firebaseAdapter.uyeGirisYap(getIntent().getExtras().getString("email"),getIntent().getExtras().getString("password"),this);
+        }else{
+
+            //firebaseAdapter.girisYapanKullaniciAdiDondur(FirstActivity.autoLogin.getString("email",null).toString());
+            firebaseAdapter.uyeGirisYap(FirstActivity.autoLogin.getString("email",null).toString(),FirstActivity.autoLogin.getString("password",null).toString(),this);
+        }
     }
 
     @Override

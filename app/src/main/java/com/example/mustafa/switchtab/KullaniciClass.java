@@ -127,6 +127,9 @@ public class KullaniciClass {
             return false;
         }
     }
+    public KullaniciClass arkadasiBul(int index){
+        return arkadasListesi.get(index);
+    }
     public int arkadasSayisi(){
         return arkadasListesi.size();
     }

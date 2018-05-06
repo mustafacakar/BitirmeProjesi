@@ -1,13 +1,16 @@
 package com.example.mustafa.switchtab;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -27,6 +30,8 @@ public class Tab3 extends Fragment {
     private TextView isim;
     private TextView kullaniciAdi;
     private TextView email;
+    private TextView notSayisi;
+    private TextView arkadasSayisi;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -70,15 +75,29 @@ public class Tab3 extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_tab3, container, false);
 
-        email = (TextView) view.findViewById(R.id.profil_mail);
-        kullaniciAdi = (TextView) view.findViewById(R.id.profil_kullaniciAdi);
-        isim = (TextView) view.findViewById(R.id.tv_name);
+        email = (TextView) view.findViewById(R.id.profil_tvMail);
+        kullaniciAdi = (TextView) view.findViewById(R.id.profil_tvKullaniciAdi);
+        isim = (TextView) view.findViewById(R.id.profil_tvAdSoyad);
+        notSayisi = (TextView) view.findViewById(R.id.profil_tvNotSayisi);
+        arkadasSayisi = (TextView) view.findViewById(R.id.profil_tvArkadasSayisi);
 
-        email.setText(FirstActivity.autoLogin.getString("email",null));
-        kullaniciAdi.setText(FirstActivity.autoLogin.getString("username",null));
+        if(FirstActivity.kullanici.getKullaniciAdi()!=null){
+            email.setText(FirstActivity.kullanici.getEmail());
+            kullaniciAdi.setText(FirstActivity.kullanici.getKullaniciAdi());
+            isim.setText(FirstActivity.kullanici.getAdSoyad());
+            notSayisi.setText(String.valueOf(FirstActivity.kullanici.notSayisi()));
+            arkadasSayisi.setText(String.valueOf(FirstActivity.kullanici.arkadasSayisi()));
+        }
 
+        Button profilDuzenle = (Button) view.findViewById(R.id.profil_btnDuzenle);
+        profilDuzenle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),ProfilDuzenle.class);
+                startActivity(intent);
+            }
+        });
 
-        // Inflate the layout for this fragment
         return view;
     }
 
@@ -119,5 +138,11 @@ public class Tab3 extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Recreate Yazılacak
     }
 }

@@ -41,7 +41,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCGHcW5R0_7ul7G6fKn7YP3oJSu68_AnBs" />
 
-        <activity android:name=".KonumDuzenle"></activity>
+        <activity android:name=".KonumDuzenle" />
+        <activity android:name=".ProfilDuzenle" />
+        <activity android:name=".NotDetay"></activity>
+
+        <service android:name=".KonumKontrolServisi"/>
     </application>
 
 </manifest>

@@ -129,12 +129,20 @@ public class Tab1 extends Fragment{
         notListesi.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //duzenlenecekNot = (position-FirstActivity.kullanici.notSayisi())+1;
                 duzenlenecekNot = position;
                 return false;
             }
         });
 
+        notListesi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                duzenlenecekNot=position;
+                Intent duzenle = new Intent(getActivity(),NotDetay.class);
+                duzenle.putExtra("notIndex",duzenlenecekNot);
+                startActivity(duzenle);
+            }
+        });
 
 
 

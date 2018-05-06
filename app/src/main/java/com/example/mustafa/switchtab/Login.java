@@ -23,7 +23,12 @@ public class Login extends AppCompatActivity {
     }
     public void login(View v){
         if(!email.getText().toString().equals("") && !password.getText().toString().equals("")){
-            firebaseAdapter.uyeGirisYap(email.getText().toString(),password.getText().toString(),this);
+            Intent intent = new Intent(this,LoginAnimasyon.class);
+            intent.putExtra("login",true);
+            intent.putExtra("email",email.getText().toString());
+            intent.putExtra("password",password.getText().toString());
+            startActivity(intent);
+            //firebaseAdapter.uyeGirisYap(email.getText().toString(),password.getText().toString(),this);
         }
         else{
             Toast.makeText(getApplicationContext(),"E-Mail veya Şifre Girilmedi", Toast.LENGTH_LONG).show();

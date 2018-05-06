@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/genel_acikMavi">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/arkadas_gorunum_arkaplan"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/circle_border"
+            android:id="@+id/relativeLayout">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/kisiler_ivProfil"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="3dp"
+                android:src="@drawable/profil_pic1" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/relativeLayout"
+            android:orientation="vertical"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/kisiler_tvAdSoyad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nizamettin Domuşuk"
+                android:textColor="@color/profil_isimSoyisim" />
+
+            <TextView
+                android:id="@+id/kisiler_tvKullaniciAdi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nizooo_19"
+                android:textColor="@color/profil_nickname" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

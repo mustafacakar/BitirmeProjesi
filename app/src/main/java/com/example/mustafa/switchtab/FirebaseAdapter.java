@@ -106,6 +106,7 @@ class FirebaseAdapter {
         }else if(FirstActivity.autoLogin.getBoolean("girisYapildi",false) == true){
             //LoginAnimasyon Ekranı
             Intent intent = new Intent(c,LoginAnimasyon.class);
+            intent.putExtra("login",false); // ilkLogin değeri = false (Oto Login Gerçekleştiriliyor)
             c.startActivity(intent);
         }
     }

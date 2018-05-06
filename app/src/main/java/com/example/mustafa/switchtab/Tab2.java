@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,13 @@ public class Tab2 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    //*********** Değişkenler **************************
+
+    KullaniciClass insan;
+
+    //**************************************************
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -70,9 +78,27 @@ public class Tab2 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab2, container, false);
-
+        ListView arkadasListesi = (ListView) view.findViewById(R.id.kisiler_lvArkadasList);
+        if(FirstActivity.kullanici.getKullaniciAdi()!=null){
+            arkadasOlustur();
+            arkadasListesi.setAdapter(new ArkadasGosterAdapter(getActivity()));
+        }
 
         return view;
+    }
+
+    private void arkadasOlustur(){
+        insan = new KullaniciClass();
+        insan.setAdSoyad("Betül Kazanç");
+        insan.setKullaniciAdi("betul_88");
+
+        FirstActivity.kullanici.arkadasEkle(insan);
+
+        insan = new KullaniciClass();
+        insan.setAdSoyad("Necati Yavuz");
+        insan.setKullaniciAdi("yavuznecati");
+
+        FirstActivity.kullanici.arkadasEkle(insan);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

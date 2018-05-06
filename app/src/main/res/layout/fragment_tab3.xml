@@ -9,8 +9,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/uygulama_arkaplan">
+        android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/profil_relUst"
@@ -26,52 +25,38 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/circle_border">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_margin="9dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/circle"
-                android:padding="3dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_profile_man" />
+                android:src="@drawable/profil_kisi"/>
 
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/profil_tvAdSoyad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15sp"
+            android:layout_marginTop="10sp"
             android:fontFamily="sans-serif-light"
             android:text="Mustafa Çakar"
             android:textColor="@color/white"
             android:textSize="25sp" />
 
 
-        <TextView
-            android:id="@+id/tv_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif"
-            android:text="sakarya,türkiye"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="13sp" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+        <Button
+            android:id="@+id/profil_btnDuzenle"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
             android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_settings" />
+            android:background="@drawable/ic_settings"
+            android:onClick="profilDuzenle"
+            android:scaleType="centerInside" />
 
     </RelativeLayout>
 
@@ -99,6 +84,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/profil_tvNotSayisi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -135,6 +121,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/profil_tvArkadasSayisi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -186,7 +173,7 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/profil_kullaniciAdi"
+                        android:id="@+id/profil_tvKullaniciAdi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
@@ -217,7 +204,7 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/profil_mail"
+                        android:id="@+id/profil_tvMail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"

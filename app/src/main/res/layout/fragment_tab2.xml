@@ -6,15 +6,11 @@
     tools:context="com.example.mustafa.switchtab.Tab2">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/tab2_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Henüz Yapım Aşamasında, Eğer Yetişmezse Kaldırılacak"
-        android:textSize="30dp"
-        android:gravity="center"
-        android:layout_margin="10dp"
-        android:textColor="@color/first_buttonArkaplan"/>
 
+    <ListView
+        android:id="@+id/kisiler_lvArkadasList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>
