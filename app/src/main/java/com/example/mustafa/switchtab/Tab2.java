@@ -1,23 +1,43 @@
 package com.example.mustafa.switchtab;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Tab2.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link Tab2#newInstance} factory method to
  * create an instance of this fragment.
@@ -36,6 +56,20 @@ public class Tab2 extends Fragment {
 
     KullaniciClass insan;
 
+    /*ArrayList<String> fullNameList;
+    ArrayList<String> kullaniciAdiList;*/
+    ArrayList<KullaniciClass> insanListesi;
+    DatabaseReference databaseReference;
+    FirebaseUser firebaseUser;
+    RecyclerView recyclerView;
+    public static EditText searchBar;
+    FirebaseDatabase database;
+    ListView KisilerList;
+    FirebaseAdapter firebaseAdapter;
+    ArkadasGosterAdapter arkadasGosterAdapter;
+    int secilenArkadas;
+
+    searchAdapter searchAdapterM;
     //**************************************************
 
 
@@ -70,35 +104,185 @@ public class Tab2 extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        arkadasGosterAdapter = new ArkadasGosterAdapter(getActivity());
+        firebaseAdapter = new FirebaseAdapter();
+        database = FirebaseDatabase.getInstance();
     }
 
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.arkadas_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.context_arkadasa_not:
+                //Toast.makeText(getActivity(),"Düzenle -> "+duzenlenecekNot,Toast.LENGTH_SHORT).show();
+                //Intent duzenle = new Intent(getActivity(),NotDuzenle.class);
+                //duzenle.putExtra("NotSira",duzenlenecekNot);
+                //startActivity(duzenle);
+                return true;
+            case R.id.context_arkadas_sil:
+                //Toast.makeText(getActivity(),"Sil -> "+secilenArkadas,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),FirstActivity.kullanici.arkadasiBul(secilenArkadas).getKullaniciAdi()+" Arkadaşlıktan Çıkarıldı!",Toast.LENGTH_SHORT).show();
+                firebaseAdapter.arkadasSil(FirstActivity.kullanici.arkadasiBul(secilenArkadas));
+                FirstActivity.kullanici.arkadasiSil(secilenArkadas);
+                Tab3.arkadasSayisi.setText(FirstActivity.kullanici.arkadasSayisi()+"");
+                arkadasGosterAdapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab2, container, false);
-        ListView arkadasListesi = (ListView) view.findViewById(R.id.kisiler_lvArkadasList);
+        insanListesi = new ArrayList<KullaniciClass>();
+        KisilerList =  (ListView) view.findViewById(R.id.kisiler_lvArkadasList);
+        recyclerView  = (RecyclerView) view.findViewById(R.id.recyclerView);
+        //final ListView arkadasListesi = (ListView) view.findViewById(R.id.kisiler_lvArkadasList);
         if(FirstActivity.kullanici.getKullaniciAdi()!=null){
-            arkadasOlustur();
-            arkadasListesi.setAdapter(new ArkadasGosterAdapter(getActivity()));
+            //arkadasOlustur();
+            firebaseAdapter.arkadaslariCek(getActivity(),KisilerList, arkadasGosterAdapter);
+            registerForContextMenu(KisilerList);
         }
+
+
+        KisilerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                secilenArkadas = position;
+                return false;
+            }
+        });
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),LinearLayoutManager.VERTICAL));
+
+        KisilerList.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+
+         searchBar = (EditText) view.findViewById(R.id.search_edit_text);
+        // Set drawables for left, top, right, and bottom - send 0 for nothing
+        searchBar.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.search_icon, 0);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()==0){
+                    arkadasGosterAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                /*fullNameList=new ArrayList<String>();
+                kullaniciAdiList=new ArrayList<String>();*/
+                Log.i("LogX","girdi");
+                recyclerView.setVisibility(View.VISIBLE);
+                KisilerList.setVisibility(View.INVISIBLE);
+                if(!s.toString().isEmpty()){
+                    setAdapter(s.toString());
+
+                }else{
+                  recyclerView.setVisibility(View.INVISIBLE);
+                    KisilerList.setVisibility(View.VISIBLE);
+
+
+                }
+
+            }
+        });
+
 
         return view;
     }
 
-    private void arkadasOlustur(){
-        insan = new KullaniciClass();
-        insan.setAdSoyad("Betül Kazanç");
-        insan.setKullaniciAdi("betul_88");
+    private void setAdapter(final String searchedString){
 
-        FirstActivity.kullanici.arkadasEkle(insan);
+        databaseReference=database.getReference("KeepNoteApp");
+        databaseReference.child("Kullanicilar").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Her aramadan önce arrayListleri sıfırlıyoruz.
+                /*fullNameList.clear();
+                kullaniciAdiList.clear();*/
+                //profileFotoList.clear();
+                insanListesi.clear();
 
-        insan = new KullaniciClass();
-        insan.setAdSoyad("Necati Yavuz");
-        insan.setKullaniciAdi("yavuznecati");
+                if(searchedString.toString().isEmpty()){
 
-        FirstActivity.kullanici.arkadasEkle(insan);
+                    /*fullNameList.clear();
+                    kullaniciAdiList.clear();*/
+                    insanListesi.clear();
+                    recyclerView.removeAllViews();
+
+                }
+
+
+
+                int counter = 0;
+
+
+                for(DataSnapshot snapshot :dataSnapshot.getChildren()){
+
+                    /*String uid =snapshot.getKey();
+                    String full_name = snapshot.child("Isim").getValue(String.class);
+                    String kullaniciAdi = snapshot.child("KullaniciAdi").getValue(String.class);
+                    String fotograf = snapshot.child("Fotograf").getValue(String.class);*/
+
+                    if(!FirstActivity.kullanici.arkadasMi(snapshot.child("KullaniciAdi").getValue(String.class)) && !FirstActivity.kullanici.getKullaniciAdi().equals(snapshot.child("KullaniciAdi").getValue(String.class))){
+                        insan = new KullaniciClass();
+                        insan.setAdSoyad(snapshot.child("Isim").getValue(String.class));
+                        insan.setKullaniciAdi(snapshot.child("KullaniciAdi").getValue(String.class));
+                        insan.setProfilFotografi(snapshot.child("Fotograf").getValue(String.class));
+
+                        if(insan.getAdSoyad().toLowerCase().contains(searchedString.toLowerCase())){
+
+                            insanListesi.add(insan);
+                        /*fullNameList.add(full_name);
+                        kullaniciAdiList.add(kullaniciAdi);*/
+                            counter++;
+
+                        }else if (insan.getKullaniciAdi().toLowerCase().contains(searchedString.toLowerCase())){
+
+
+                        /*fullNameList.add(full_name);
+                        kullaniciAdiList.add(kullaniciAdi);*/
+                            insanListesi.add(insan);
+                            counter++;
+                        }
+
+                        if(counter == 15 )
+                            break;
+                    }
+
+
+
+
+                }
+
+                searchAdapterM = new searchAdapter(getActivity(),insanListesi);
+                recyclerView.setAdapter(searchAdapterM);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

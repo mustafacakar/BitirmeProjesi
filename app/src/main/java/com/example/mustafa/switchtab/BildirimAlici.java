@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 
 
 public class BildirimAlici extends BroadcastReceiver {
-    public static Context context;
+    public static Context alarmContext;
     public static String baslik;
     public static String icerik;
     @Override
@@ -22,13 +22,14 @@ public class BildirimAlici extends BroadcastReceiver {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(baslik+" ")
                 .setContentText(icerik+" ")
-                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
+                .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setContentInfo("Bildirim Bilgi");
 
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1,builder.build());
         Intent alarmAc = new Intent(context,AlarmActivity.class);
-        context.startActivity(alarmAc);
-
+        alarmAc.putExtra("baslik",baslik);
+        alarmAc.putExtra("icerik",icerik);
+        alarmContext.startActivity(alarmAc);
     }
 }

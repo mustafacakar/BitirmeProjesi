@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 
 
 public class ArkadasGosterAdapter extends BaseAdapter {
@@ -53,11 +55,9 @@ public class ArkadasGosterAdapter extends BaseAdapter {
 
         isim.setText(FirstActivity.kullanici.arkadasiBul(position).getAdSoyad());
         kullaniciAdi.setText("@"+FirstActivity.kullanici.arkadasiBul(position).getKullaniciAdi());
-
-        if(position%2==0){
-            profil.setImageDrawable(view.getResources().getDrawable(R.drawable.profil_pic1));
-        }else{
-            profil.setImageDrawable(view.getResources().getDrawable(R.drawable.profil_pic2));
+        String profilPic=""+FirstActivity.kullanici.arkadasiBul(position).getProfilFotografi();
+        if(!profilPic.equals("Eklenmedi") && !profilPic.equals("null")){
+            Picasso.get().load(FirstActivity.kullanici.arkadasiBul(position).getProfilFotografi()).into(profil);
         }
 
 

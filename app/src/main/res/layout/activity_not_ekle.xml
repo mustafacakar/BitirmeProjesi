@@ -93,7 +93,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.249"
+        app:layout_constraintHorizontal_bias="0.082"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
@@ -105,7 +105,7 @@
         android:layout_marginRight="8dp"
         android:text="Takvim ve Saat"
         android:textColor="@color/first_buttonArkaplan"
-        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintHorizontal_bias="0.032"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginStart="8dp"
@@ -125,7 +125,9 @@
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintHorizontal_bias="0.871" />
 
     <TextView
         android:id="@+id/notEkle_tvKonum"
@@ -135,12 +137,43 @@
         android:layout_marginRight="8dp"
         android:text="Konum Desteği"
         android:textColor="@color/first_buttonArkaplan"
-        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintHorizontal_bias="0.935"
         app:layout_constraintLeft_toRightOf="@+id/notEkle_tvTakvim"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/notEkle_btnKonum" />
+
+    <Button
+        android:id="@+id/notEkle_btnFotograf"
+        android:layout_width="88dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/fotograf_ekle_button"
+        android:onClick="fotografSec"
+        app:layout_constraintBottom_toTopOf="@+id/notEkle_btnOlustur"
+        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintLeft_toRightOf="@+id/notEkle_btnTakvim"
+        app:layout_constraintRight_toLeftOf="@+id/notEkle_btnKonum"
+        app:layout_constraintTop_toBottomOf="@+id/notEkle_etIcerik"
+        app:layout_constraintVertical_bias="0.441" />
+
+    <TextView
+        android:id="@+id/notEkle_tvFotograf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Fotoğraf Ekle"
+        android:textColor="@color/first_buttonArkaplan"
+        app:layout_constraintHorizontal_bias="0.133"
+        app:layout_constraintLeft_toRightOf="@+id/notEkle_tvTakvim"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notEkle_btnKonum" />
 
     <Button

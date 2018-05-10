@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,18 +38,19 @@ class FirebaseAdapter {
     private FirebaseAuth.AuthStateListener mAuthListener;   // Authentication İşlemlerini Takip Eden Dinleyici
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
+    private StorageReference storageReference;
     private String uuid;
-    private int basariliIslem;
-    String tarihRef;
+    private KullaniciClass arkadas;
 
     // Authentication İşlemlerini Yapacak Nesneler Oluşturuluyor.
     FirebaseAdapter(){
 
         uyelikIslemleri();
         databaseIslemleri();
+        depolamaIslemleri();
     }
 
-    void uyelikIslemleri(){
+    private void uyelikIslemleri(){
         mAuth=FirebaseAuth.getInstance();
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
@@ -54,9 +60,13 @@ class FirebaseAdapter {
         };
     }
 
-    void databaseIslemleri(){
+    private void databaseIslemleri(){
         firebaseDatabase=FirebaseDatabase.getInstance();
         myRef=firebaseDatabase.getReference();
+    }
+
+    private void depolamaIslemleri(){
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     // Kullanılacak Activity'de OnStart Methodu @Override Edilip İçine Yazılacak
@@ -81,7 +91,9 @@ class FirebaseAdapter {
                     myRef.child("KeepNoteApp").child("Kullanicilar").child(username).child("KullaniciAdi").setValue(username);
                     myRef.child("KeepNoteApp").child("Kullanicilar").child(username).child("E-Mail").setValue(email);
                     myRef.child("KeepNoteApp").child("Kullanicilar").child(username).child("Parola").setValue(password);
-                    myRef.child("KeepNoteApp").child("Kullanicilar").child(username).child("Isim").setValue("Girilmedi");
+                    myRef.child("KeepNoteApp").child("Kullanicilar").child(username).child("Isim").setValue("İsim Girilmedi");
+                    myRef.child("KeepNoteApp").child("Kullanicilar").child(username).child("Fotograf").setValue("Eklenmedi");
+                    myRef.child("KeepNoteApp").child("Kullanicilar").child(username).child("Arkadas_Listesi").child("Arkadas_Sayisi").setValue(0);
 
                     otoLoginBilgiKayit(email,password,username);
 
@@ -98,7 +110,10 @@ class FirebaseAdapter {
             }
         });
     }
-
+    public void uyeBilgiGuncelle(String isim, String resim){
+        myRef.child("KeepNoteApp").child("Kullanicilar").child(FirstActivity.kullanici.getKullaniciAdi()).child("Isim").setValue(isim);
+        myRef.child("KeepNoteApp").child("Kullanicilar").child(FirstActivity.kullanici.getKullaniciAdi()).child("Fotograf").setValue(resim);
+    }
     void  otoLoginYap(Context c){
         if(FirstActivity.autoLogin.getBoolean("misafir",false) == true){
             Intent intent = new Intent(c,MainActivity.class);
@@ -134,16 +149,13 @@ class FirebaseAdapter {
 
     // Üye Programa Girişini Yapan Method
     void uyeGirisYap(final String email, final String password, final Context c){
-
-        //notlarıDownloadEt2();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener((Activity) c, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                girisYapanKullaniciAdiDondur(email);
-                if(task.isSuccessful()){
 
-                    Intent intent = new Intent(c,MainActivity.class);
-                    c.startActivity(intent);
+                if(task.isSuccessful()){
+                    girisYapanKullaniciAdiDondur(email,c);
+
                 }
             }
         }).addOnFailureListener((Activity) c, new OnFailureListener() {
@@ -151,6 +163,9 @@ class FirebaseAdapter {
             public void onFailure(@NonNull Exception e) {
                 if(e!=null){
                     Toast.makeText(c,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                    FirstActivity.otoLoginBilgiTemizle();
+                    Intent intent2 = new Intent(c,Login.class);
+                    c.startActivity(intent2);
 
                     if(FirstActivity.autoLogin.getBoolean("girisYapildi",false) == true){
                         FirstActivity.otoLoginBilgiTemizle();
@@ -162,7 +177,7 @@ class FirebaseAdapter {
         });
     }
 
-    void girisYapanKullaniciAdiDondur(final String email){
+    void girisYapanKullaniciAdiDondur(final String email, final Context c){
         firebaseDatabase= FirebaseDatabase.getInstance();
         myRef=firebaseDatabase.getReference("KeepNoteApp/Kullanicilar");
 
@@ -183,6 +198,9 @@ class FirebaseAdapter {
                         FirstActivity.kullanici.setKullaniciAdi(hashMap.get("KullaniciAdi").toString());
                         FirstActivity.kullanici.setEmail(hashMap.get("E-Mail").toString());
                         FirstActivity.kullanici.setAdSoyad(hashMap.get("Isim").toString());
+                        FirstActivity.kullanici.setProfilFotografi(hashMap.get("Fotograf").toString());
+                        Intent intent = new Intent(c,MainActivity.class);
+                        c.startActivity(intent);
                         myRef.removeEventListener(this);
                     }
                 }
@@ -222,7 +240,7 @@ class FirebaseAdapter {
 
     void notlarıDownloadEt(final Context c, final ListView listView, final NotGosterAdapter notAdapter){
         firebaseDatabase= FirebaseDatabase.getInstance();
-        myRef = firebaseDatabase.getReference("KeepNoteApp/Notlar/"+FirstActivity.autoLogin.getString("username",null).toString());
+        myRef = firebaseDatabase.getReference("KeepNoteApp/Notlar/"+FirstActivity.kullanici.getKullaniciAdi());
         FirstActivity.kullanici.notlariTemizle();
 
         final ArrayList<String> baslik = new ArrayList<String>();
@@ -297,6 +315,77 @@ class FirebaseAdapter {
                     notSnapshot.getRef().removeValue();
                 }
                 silinecekNot.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void resimUploadEt(Uri uri, final Context context, final NotClass not){
+        uuid = UUID.randomUUID().toString();
+        StorageReference storage = storageReference.child("images/"+uuid+".jpg");
+        storage.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                not.setNotResmi(taskSnapshot.getDownloadUrl().toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context,"Resim Yüklenirken Hata Oluştu!",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    void arkadasEkle(KullaniciClass arkadas){
+        String uuid;
+        uuid =  UUID.randomUUID().toString();
+        myRef.child("KeepNoteApp").child("Kullanicilar").child(FirstActivity.kullanici.getKullaniciAdi()).child("Arkadas_Listesi").child(arkadas.getKullaniciAdi()).child("Arkadas_KullaniciAdi").setValue(arkadas.getKullaniciAdi());
+        myRef.child("KeepNoteApp").child("Kullanicilar").child(FirstActivity.kullanici.getKullaniciAdi()).child("Arkadas_Listesi").child(arkadas.getKullaniciAdi()).child("Arkadas_Isim").setValue(arkadas.getAdSoyad());
+        myRef.child("KeepNoteApp").child("Kullanicilar").child(FirstActivity.kullanici.getKullaniciAdi()).child("Arkadas_Listesi").child(arkadas.getKullaniciAdi()).child("Arkadas_Fotograf").setValue(arkadas.getProfilFotografi());
+        myRef.child("KeepNoteApp").child("Kullanicilar").child(FirstActivity.kullanici.getKullaniciAdi()).child("Arkadas_Listesi").child("Arkadas_Sayisi").setValue(FirstActivity.kullanici.arkadasSayisi());
+    }
+    private int kontrol;
+    void arkadaslariCek(final Context c,final ListView arkadasListesi, final ArkadasGosterAdapter arkadasGosterAdapter){
+        FirstActivity.kullanici.arkadaslariTemizle();
+        kontrol=0;
+        firebaseDatabase= FirebaseDatabase.getInstance();
+        myRef=firebaseDatabase.getReference("KeepNoteApp/Kullanicilar/"+FirstActivity.kullanici.getKullaniciAdi()+"/Arkadas_Listesi");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot :dataSnapshot.getChildren()){
+                    if(dataSnapshot.child("Arkadas_Sayisi").getValue(Integer.class)!=0 && kontrol>0){
+                        arkadas=new KullaniciClass();
+                        arkadas.setProfilFotografi(snapshot.child("Arkadas_Fotograf").getValue(String.class));
+                        arkadas.setKullaniciAdi(snapshot.child("Arkadas_KullaniciAdi").getValue(String.class));
+                        arkadas.setAdSoyad(snapshot.child("Arkadas_Isim").getValue(String.class));
+                        FirstActivity.kullanici.arkadasEkle(arkadas);
+                        arkadasListesi.setAdapter(arkadasGosterAdapter);
+                    }
+                    kontrol++;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    void arkadasSil(final KullaniciClass arkadas){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        final Query silinecekArkadas = ref.child("KeepNoteApp/Kullanicilar/"+FirstActivity.kullanici.getKullaniciAdi()+"/Arkadas_Listesi").orderByChild("Arkadas_KullaniciAdi").equalTo(arkadas.getKullaniciAdi());
+        silinecekArkadas.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot arkadasSnapshot: dataSnapshot.getChildren()) {
+                    arkadasSnapshot.getRef().removeValue();
+                    myRef.child("Arkadas_Sayisi").setValue(FirstActivity.kullanici.arkadasSayisi());
+                }
+                silinecekArkadas.removeEventListener(this);
             }
 
             @Override

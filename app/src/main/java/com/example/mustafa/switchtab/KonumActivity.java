@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -97,7 +98,9 @@ public class KonumActivity extends AppCompatActivity implements OnMapReadyCallba
 
             @Override
             public void onProviderDisabled(String provider) {
-
+                Intent konumAc = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                konumAc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(konumAc);
             }
         };
 
@@ -110,16 +113,18 @@ public class KonumActivity extends AppCompatActivity implements OnMapReadyCallba
         else{
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1,locationListener);
             sonKonum = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            sonKoordinat = new LatLng(sonKonum.getLatitude(),sonKonum.getLongitude());
-            mMap.addMarker(new MarkerOptions()
-                    .position(sonKoordinat)
-                    .title("Buradasınız")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sonKoordinat,16));
+            if(sonKonum!=null){
+                sonKoordinat = new LatLng(sonKonum.getLatitude(),sonKonum.getLongitude());
+                mMap.addMarker(new MarkerOptions()
+                        .position(sonKoordinat)
+                        .title("Buradasınız")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sonKoordinat,16));
 
-            if(NotEkle.eklenecekNot.getAdresKoordinat()!=null){
-                notKonumunuAl();
-                //Toast.makeText(getApplicationContext(),"cc",Toast.LENGTH_SHORT).show();
+                if(NotEkle.eklenecekNot.getAdresKoordinat()!=null){
+                    notKonumunuAl();
+                    //Toast.makeText(getApplicationContext(),"cc",Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -190,14 +195,17 @@ public class KonumActivity extends AppCompatActivity implements OnMapReadyCallba
             //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sonKoordinat,16));
         }
         isaretliKoordinat=null;
-        NotEkle.eklenecekNot.adresKoordinatSil();
+        NotEkle.eklenecekNot.setAdresKoordinat(new LatLng(0,0));
     }
     private void konumuGoster(){
         if(anlikKonum != null){
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(anlikKonum,16));
         }
-        else {
+        else if (sonKoordinat!=null) {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sonKoordinat,16));
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Konum Verinize Ulaşamıyoruz",Toast.LENGTH_SHORT).show();
         }
     }
     private void isaretliKonumGoster(){
@@ -206,7 +214,7 @@ public class KonumActivity extends AppCompatActivity implements OnMapReadyCallba
         }
     }
     private void hedefiGoster(){
-        if(isaretliKoordinat!=null){
+        if(isaretliKoordinat!=null && isaretliKoordinat.latitude!=0 && isaretliKoordinat.longitude!=0){
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(isaretliKoordinat,16));
         }
         else{

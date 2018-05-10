@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -31,7 +34,8 @@ public class Tab3 extends Fragment {
     private TextView kullaniciAdi;
     private TextView email;
     private TextView notSayisi;
-    private TextView arkadasSayisi;
+    public static TextView arkadasSayisi;
+    private ImageView fotograf;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -80,6 +84,7 @@ public class Tab3 extends Fragment {
         isim = (TextView) view.findViewById(R.id.profil_tvAdSoyad);
         notSayisi = (TextView) view.findViewById(R.id.profil_tvNotSayisi);
         arkadasSayisi = (TextView) view.findViewById(R.id.profil_tvArkadasSayisi);
+        fotograf = (ImageView) view.findViewById(R.id.profil_ivProfilFotograf);
 
         if(FirstActivity.kullanici.getKullaniciAdi()!=null){
             email.setText(FirstActivity.kullanici.getEmail());
@@ -87,6 +92,12 @@ public class Tab3 extends Fragment {
             isim.setText(FirstActivity.kullanici.getAdSoyad());
             notSayisi.setText(String.valueOf(FirstActivity.kullanici.notSayisi()));
             arkadasSayisi.setText(String.valueOf(FirstActivity.kullanici.arkadasSayisi()));
+
+            if(FirstActivity.kullanici.getProfilFotografi()!=null && !FirstActivity.kullanici.getProfilFotografi().equals("Eklenmedi")){
+                Picasso.get().load(FirstActivity.kullanici.getProfilFotografi()).into(fotograf);
+            }else{
+                fotograf.setImageDrawable(getResources().getDrawable(R.drawable.icon_profile_man));
+            }
         }
 
         Button profilDuzenle = (Button) view.findViewById(R.id.profil_btnDuzenle);
@@ -143,6 +154,5 @@ public class Tab3 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //Recreate Yazılacak
     }
 }

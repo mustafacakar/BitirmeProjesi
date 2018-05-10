@@ -26,10 +26,11 @@
             android:background="@drawable/circle_border">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profil_ivProfilFotograf"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_margin="9dp"
-                android:src="@drawable/profil_kisi"/>
+                android:src="@drawable/profil_kisi" />
 
         </RelativeLayout>
 

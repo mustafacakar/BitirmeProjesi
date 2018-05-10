@@ -9,6 +9,7 @@ public class KullaniciClass {
     private String kullaniciAdi;
     private String email;
     private String sifre;
+    private String profilFotografi;
     private ArrayList<NotClass> notlar;
     private int notIndis;
     private ArrayList<KullaniciClass> arkadasListesi;
@@ -19,6 +20,7 @@ public class KullaniciClass {
         kullaniciAdi=null;
         email=null;
         sifre=null;
+        profilFotografi = "Eklenmedi";
         notlar= new ArrayList<>();
         notIndis=-1;
         arkadasListesi = new ArrayList<>();
@@ -110,27 +112,31 @@ public class KullaniciClass {
         arkadasIndis=-1;
         return false;
     }
-    public boolean arkadasDuzenle(KullaniciClass arkadas){
-        if(arkadasIndisBul(arkadas)){
-            arkadasListesi.set(arkadasIndis,arkadas);
-            return true;
-        }else{
-            return false;
-        }
+    public void arkadasiSil(int index){
+        arkadasListesi.remove(index);
     }
-    public boolean arkadasSil(KullaniciClass arkadas){
-        if(arkadasIndisBul(arkadas)){
-            arkadasListesi.remove(arkadasIndis);
-            return true;
-        }
-        else{
-            return false;
-        }
+    public void arkadaslariTemizle(){
+        arkadasListesi.clear();
     }
     public KullaniciClass arkadasiBul(int index){
         return arkadasListesi.get(index);
     }
     public int arkadasSayisi(){
         return arkadasListesi.size();
+    }
+    public boolean arkadasMi(String kullaniciAdi){
+        for(int i=0;i<arkadasListesi.size();i++){
+            if(arkadasListesi.get(i).getKullaniciAdi().equals(kullaniciAdi)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setProfilFotografi(String profilFotografi){
+        this.profilFotografi = profilFotografi;
+    }
+    public String getProfilFotografi(){
+        return profilFotografi;
     }
 }

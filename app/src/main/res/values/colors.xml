@@ -33,6 +33,7 @@
     <color name="followersBg">#669b9f</color>
     <color name="followingBg">#49BEFF</color>
     <color name="grey">#E5E5E5</color>
+    <color name="grey2">#99E5E5E5</color>
     <color name="white">#FFFFFF</color>
 
     <!-- Arkadaş Listesi - arkadas_liste.gorunum.xml -->

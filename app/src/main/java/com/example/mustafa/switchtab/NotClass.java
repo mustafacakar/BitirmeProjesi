@@ -22,10 +22,10 @@ public class NotClass extends TakvimClass{
         notIcerik=null;
         notSahibi=FirstActivity.autoLogin.getString("username",null);
         notHedefi=null;
-        notResmi=null;
+        notResmi="Eklenmedi";
         notSira=0;
         adresBilgisi=null;
-        adresKoordinat=null;
+        adresKoordinat= new LatLng(0,0);
     }
 
     NotClass(String notBaslik,String notIcerik, String notSahibi, String notHedefi, String notResmi, LatLng adresKoordinat){

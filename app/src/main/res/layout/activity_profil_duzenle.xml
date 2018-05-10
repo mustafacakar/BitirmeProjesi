@@ -48,30 +48,29 @@
         android:layout_marginEnd="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilDuzenle_ivFotograf"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="5dp"
-            android:src="@drawable/profil_kisi"
-            android:onClick="ppDegistir"/>
+            android:onClick="ppDegistir"
+            android:src="@drawable/icon_profile_man" />
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/profilDuzenle_linLayAd"
         android:layout_width="344dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        app:layout_constraintVertical_bias="0.279">
 
         <TextView
             android:id="@+id/profilDuzenle_tvİsim"
@@ -93,44 +92,11 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/profilDuzenle_linLayEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilDuzenle_linLayAd">
-
-        <TextView
-            android:id="@+id/profilDuzenle_tvEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="E-Mail Adresi"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:textColor="@color/white"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/profilDuzenle_etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:background="@drawable/edit_text_tasarim" />
-
-    </LinearLayout>
-
     <Button
         android:id="@+id/profilDuzenle_btnBitir"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="60dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/first_activity_buttons"
@@ -138,13 +104,26 @@
         android:text="Düzenlemeyi Bitir"
         android:textColor="@color/first_buttonText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/profilDuzenle_linLayEmail"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Profil Fotoğrafınızı Değiştirmek İçin Resme Tıklayın"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/profilDuzenle_linLayAd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        app:layout_constraintVertical_bias="0.21" />
 
 </android.support.constraint.ConstraintLayout>

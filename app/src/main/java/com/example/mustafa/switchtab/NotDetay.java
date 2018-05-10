@@ -1,5 +1,7 @@
 package com.example.mustafa.switchtab;
 
+import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,12 +10,15 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +30,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.jar.*;
 
 public class NotDetay extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -44,6 +51,7 @@ public class NotDetay extends AppCompatActivity implements OnMapReadyCallback {
     private int notIndex;
     private LatLng notTemp;
     TextView notBaslik,notDetay,notHedef,notTarih,notSaat;
+    private ImageView resim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +71,16 @@ public class NotDetay extends AppCompatActivity implements OnMapReadyCallback {
         notHedef = (TextView) findViewById(R.id.notDetay_tvKonum);
         notTarih = (TextView) findViewById(R.id.notDetay_tvTakvim);
         notSaat = (TextView) findViewById(R.id.notDetay_tvSaat);
+        resim = (ImageView) findViewById(R.id.notDetay_ivResim);
+
+        if(FirstActivity.kullanici.notuBul(notIndex).getNotResmi().equals("Eklenmedi")){
+            resim.setVisibility(View.INVISIBLE);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, 0);
+            resim.setLayoutParams(layoutParams);
+        }
+        else{
+            Picasso.get().load(FirstActivity.kullanici.notuBul(notIndex).getNotResmi()).into(resim);
+        }
 
         notBaslik.setText(FirstActivity.kullanici.notuBul(notIndex).getNotBaslik());
         notDetay.setText(FirstActivity.kullanici.notuBul(notIndex).getNotIcerik());
@@ -72,6 +90,22 @@ public class NotDetay extends AppCompatActivity implements OnMapReadyCallback {
 
         String saatFormati = FirstActivity.kullanici.notuBul(notIndex).getSaat()+":"+FirstActivity.kullanici.notuBul(notIndex).getDakika();
         notSaat.setText(saatFormati);
+
+        String konumString = "Bulunamadı";
+        LatLng latLng=FirstActivity.kullanici.notuBul(notIndex).getAdresKoordinat();
+        if(latLng.longitude!=0 && latLng.latitude!=0){
+            adresBilgisi = new Geocoder(getApplicationContext(), Locale.getDefault());
+            try {
+                adresSorgu = adresBilgisi.getFromLocation(latLng.latitude,latLng.longitude,1);
+                konumString = adresSorgu.get(0).getSubAdminArea()+","+adresSorgu.get(0).getAdminArea();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            konumString="Konum Eklenmedi";
+        }
+        notHedef.setText(konumString);
 
         if(mapView!=null){
             mapView.onCreate(null);
@@ -134,42 +168,43 @@ public class NotDetay extends AppCompatActivity implements OnMapReadyCallback {
         else{
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1,locationListener);
             sonKonum = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            sonKoordinat = new LatLng(sonKonum.getLatitude(),sonKonum.getLongitude());
-            mMap.addMarker(new MarkerOptions()
-                    .position(sonKoordinat)
-                    .title("Buradasınız")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sonKoordinat,16));
+            if(sonKonum!=null){
+                sonKoordinat = new LatLng(sonKonum.getLatitude(),sonKonum.getLongitude());
+                mMap.addMarker(new MarkerOptions()
+                        .position(sonKoordinat)
+                        .title("Buradasınız")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sonKoordinat,16));
 
-            notKonumunuAl();
+                notKonumunuAl();
+            }
         }
     }
 
     public void konumaDon(View v){
         konumuGoster();
-        Intent intent = new Intent(this,KonumKontrolServisi.class);
-        KonumKontrolServisi.lat = FirstActivity.kullanici.notuBul(notIndex).getAdresKoordinat().latitude;
-        KonumKontrolServisi.lng = FirstActivity.kullanici.notuBul(notIndex).getAdresKoordinat().longitude;
-        KonumKontrolServisi.context=this;
+        /*Intent intent = new Intent(this,KonumKontrolServisi.class);
+        KonumKontrolServisi.LAT = FirstActivity.kullanici.notuBul(notIndex).getAdresKoordinat().latitude;
+        KonumKontrolServisi.LNG = FirstActivity.kullanici.notuBul(notIndex).getAdresKoordinat().longitude;
+        //KonumKontrolServisi.context=this;
         startService(intent);
-        Toast.makeText(getApplicationContext(),"Servis Başlatıldı!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Servis Başlatıldı!",Toast.LENGTH_SHORT).show();*/
     }
 
     public void haritaSifirla(View v){
-        haritayıYenile();
+        haritayiYenile();
         konumuGoster();
         notKonumunuAl();
     }
 
     public void hedefeGit(View v){
         hedefiGoster();
-        Intent intent = new Intent(this,KonumKontrolServisi.class);
-        KonumKontrolServisi.context=this;
+        /*Intent intent = new Intent(this,KonumKontrolServisi.class);
         stopService(intent);
-        Toast.makeText(getApplicationContext(),"Servis Durduruldu!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Servis Durduruldu!",Toast.LENGTH_SHORT).show();*/
     }
 
-    public void konumuKaydet(View v){
+    public void geriDon(View v){
         this.finish();
     }
 
@@ -185,7 +220,7 @@ public class NotDetay extends AppCompatActivity implements OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void haritayıYenile(){
+    private void haritayiYenile(){
         mMap.clear();
 
         if(anlikKonum != null){
@@ -207,13 +242,19 @@ public class NotDetay extends AppCompatActivity implements OnMapReadyCallback {
         if(anlikKonum != null){
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(anlikKonum,16));
         }
-        else {
+        else if (sonKoordinat!=null) {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sonKoordinat,16));
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Konum Verinize Ulaşamıyoruz",Toast.LENGTH_SHORT).show();
         }
     }
     private void isaretliKonumGoster(){
-        if(isaretliKoordinat!=null){
+        if(isaretliKoordinat!=null && isaretliKoordinat.latitude!=0 && isaretliKoordinat.longitude!=0){
             mMap.addMarker(new MarkerOptions().position(isaretliKoordinat).title(isaretliAdresBilgisi));
+        }
+        else{
+            Toast.makeText(this,"Hedef Eklenmedi!",Toast.LENGTH_SHORT).show();
         }
     }
     private void hedefiGoster(){
@@ -229,25 +270,26 @@ public class NotDetay extends AppCompatActivity implements OnMapReadyCallback {
         adresBilgisi= new Geocoder(getApplicationContext(),Locale.getDefault());
         isaretliAdresBilgisi="";
         isaretliKoordinat=FirstActivity.kullanici.notuBul(notIndex).getAdresKoordinat();
-        notTemp=FirstActivity.kullanici.notuBul(notIndex).getAdresKoordinat();
-        String konumFormati = "Bulunamadı";
+        if(isaretliKoordinat.longitude!=0 && isaretliKoordinat.latitude!=0){
+            notTemp=FirstActivity.kullanici.notuBul(notIndex).getAdresKoordinat();
+            String konumFormati = "Bulunamadı";
 
-        try {
-            adresSorgu = adresBilgisi.getFromLocation(isaretliKoordinat.latitude,isaretliKoordinat.longitude,1);
-            if(adresSorgu!=null && adresSorgu.size()>0){
-                isaretliAdresBilgisi= adresSorgu.get(0).getAddressLine(0);
-                konumFormati = adresSorgu.get(0).getSubAdminArea()+","+adresSorgu.get(0).getAdminArea();
+            try {
+                adresSorgu = adresBilgisi.getFromLocation(isaretliKoordinat.latitude,isaretliKoordinat.longitude,1);
+                if(adresSorgu!=null && adresSorgu.size()>0){
+                    isaretliAdresBilgisi= adresSorgu.get(0).getAddressLine(0);
+                    konumFormati = adresSorgu.get(0).getSubAdminArea()+","+adresSorgu.get(0).getAdminArea();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            mMap.addMarker(new MarkerOptions().position(isaretliKoordinat).title(isaretliAdresBilgisi));
+            notHedef.setText(konumFormati);
         }
-        mMap.addMarker(new MarkerOptions().position(isaretliKoordinat).title(isaretliAdresBilgisi));
-        notHedef.setText(konumFormati);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        this.finish();
     }
 }

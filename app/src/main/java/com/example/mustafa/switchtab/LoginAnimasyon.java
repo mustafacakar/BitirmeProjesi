@@ -2,6 +2,14 @@ package com.example.mustafa.switchtab;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.Task;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginAnimasyon extends AppCompatActivity {
 
@@ -11,6 +19,7 @@ public class LoginAnimasyon extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_animasyon);
+
 
         firebaseAdapter=new FirebaseAdapter();
 
